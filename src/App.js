@@ -36,7 +36,7 @@ function App() {
             <Router>
                 <Routes>
                     <Route
-                        path="/:style"
+                        path="/TV/:style"
                         element={<GridTV channelsArray={channels.israeli.news}/>}
                     />
                 </Routes>
