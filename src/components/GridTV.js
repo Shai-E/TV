@@ -113,9 +113,9 @@ const GridTV = ({channelsArray}) => {
     };
 
     return (
-        <div style={styles[style].screen}>
+        <div style={styles[style || 'slider'].screen}>
             <h1>Israeli News Dashboard</h1>
-            <div style={styles[style].container}>
+            <div style={styles[style || 'slider'].container}>
                 {channelsArray?.map((channel, index) => {
                     return (
                         <Video
@@ -125,7 +125,7 @@ const GridTV = ({channelsArray}) => {
                                 playerRef.current[index + 1] = player;
                                 videoRef.current[index + 1] = video;
                             }}
-                            width={styles[style].width}
+                            width={styles[style || 'slider'].width}
                         />
                     );
                 })}
