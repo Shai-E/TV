@@ -1,6 +1,7 @@
 import {useEffect, useRef} from "react";
 import Video from "./Video";
 import {useParams} from "react-router-dom";
+import NumberKeyboard from "./NumberKeyboard";
 
 const GridTV = ({channelsArray}) => {
     const playerRef = useRef({});
@@ -8,22 +9,26 @@ const GridTV = ({channelsArray}) => {
     const currentChannel = useRef(0);
     const {style} = useParams();
 
+    const handleMuted = (player) => {
+        Object.entries(playerRef.current).forEach(([key, value]) => {
+            if (key !== player) {
+                value.muted(true);
+            }
+        });
+        if (playerRef.current[player]) {
+            playerRef.current[player].muted(false);
+        }
+        if (videoRef.current[player]) {
+            videoRef.current[player].current.scrollIntoView({
+                behavior: "smooth",
+                block: "center",
+                inline: "center",
+            });
+        }
+    };
+
     useEffect(() => {
         const listener = (e) => {
-            const handleMuted = (player) => {
-                Object.entries(playerRef.current).forEach(([key, value]) => {
-                    if (key !== player) {
-                        value.muted(true);
-                    }
-                });
-                if (playerRef.current[player]) {
-                    playerRef.current[player].muted(false);
-                }
-                if(videoRef.current[player]){
-                    videoRef.current[player].current.scrollIntoView({behavior: "smooth", block: "center", inline: "center"});
-                }
-            };
-
             if (
                 parseInt(e.key) >= 0 &&
                 parseInt(e.key) <= Object.keys(playerRef.current).length
@@ -99,7 +104,12 @@ const GridTV = ({channelsArray}) => {
             },
         },
         slider: {
-            screen: {display: "flex", flex: 1, flexDirection: 'row', height: "100%"},
+            screen: {
+                display: "flex",
+                flex: 1,
+                flexDirection: "column",
+                height: "100%",
+            },
             width: window.innerWidth * 0.9,
             container: {
                 display: "flex",
@@ -113,9 +123,13 @@ const GridTV = ({channelsArray}) => {
     };
 
     return (
-        <div style={styles[style || 'slider'].screen}>
-            <h1>Israeli News Dashboard</h1>
-            <div style={styles[style || 'slider'].container}>
+        <div style={styles[style || "slider"].screen}>
+            <div style={{position: "relative", height: 90}}>
+                <div style={{position: "fixed", top: 0, left: 0}}>
+                    <NumberKeyboard onKeyPress={handleMuted} />
+                </div>
+            </div>
+            <div style={styles[style || "slider"].container}>
                 {channelsArray?.map((channel, index) => {
                     return (
                         <Video
@@ -125,7 +139,7 @@ const GridTV = ({channelsArray}) => {
                                 playerRef.current[index + 1] = player;
                                 videoRef.current[index + 1] = video;
                             }}
-                            width={styles[style || 'slider'].width}
+                            width={styles[style || "slider"].width}
                         />
                     );
                 })}
