@@ -118,7 +118,7 @@ const GridTV = ({channelsArray}) => {
                 marginRight: 10,
                 marginLeft: 10,
                 gap: 20,
-                height: "100%",
+                flex:1,
             },
         },
     };
