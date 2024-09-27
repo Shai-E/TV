@@ -36,30 +36,9 @@ function App() {
             <Router>
                 <Routes>
                     <Route
-                        path="/tv-dashboard"
-                        exact
-                        Component={() => {
-                            return (
-                                <div>
-                                    <h1>Home</h1>
-                                </div>
-                            );
-                        }}
-                    ></Route>
-                    <Route
-                        path="/tv-dashboard/israeli/:style"
+                        path="/:style"
                         element={<GridTV channelsArray={channels.israeli.news}/>}
                     />
-                    <Route
-                        path="/tv-dashboard/international"
-                        Component={() => {
-                            return (
-                                <div>
-                                    <h1>International</h1>
-                                </div>
-                            );
-                        }}
-                    ></Route>
                 </Routes>
             </Router>
         </div>
