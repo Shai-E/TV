@@ -108,6 +108,7 @@ const GridTV = ({channelsArray}) => {
                 display: "flex",
                 flex: 1,
                 flexDirection: "column",
+                justifyContent: "space-between",
                 height: "100%",
             },
             width: window.innerWidth * 0.9,
