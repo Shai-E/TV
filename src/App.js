@@ -1,5 +1,5 @@
 import "./App.css";
-import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
+import {HashRouter as Router, Route, Routes} from "react-router-dom";
 import GridTV from "./components/GridTV";
 
 function App() {
@@ -36,7 +36,7 @@ function App() {
             <Router>
                 <Routes>
                     <Route
-                        path="/TV/:style"
+                        path="/:style"
                         element={<GridTV channelsArray={channels.israeli.news}/>}
                     />
                 </Routes>
