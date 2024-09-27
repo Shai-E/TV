@@ -5,7 +5,7 @@ import 'video.js/dist/video-js.css';
 const VideoJS = (props) => {
   const videoRef = React.useRef(null);
   const playerRef = React.useRef(null);
-  const {options, onReady, getPlayer, width} = props;
+  const {options, onReady, getPlayer} = props;
 
   React.useEffect(() => {
 
