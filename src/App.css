@@ -1,5 +1,17 @@
 .App {
   text-align: center;
+  flex:1;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#root {
+  display: flex;
+  height: 100%;
 }
 
 .App-logo {
