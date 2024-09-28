@@ -3,7 +3,14 @@ import {useNavigate} from "react-router-dom";
 import gridIcon from "../assets/svg/grid.svg";
 import sliderIcon from "../assets/svg/slider.svg";
 
-const NumberKeyboard = ({onKeyPress, channels}) => {
+const icons = {
+    grid: gridIcon,
+    slider: sliderIcon,
+};
+
+const NumberKeyboard = ({onKeyPress, channels, style}) => {
+    const otherStyle = style === "grid" ? "slider" : "grid";
+
     const remoteButtons = [
         {value: "1", symbol: "1"},
         {value: "2", symbol: "2"},
@@ -21,99 +28,136 @@ const NumberKeyboard = ({onKeyPress, channels}) => {
 
     const navigate = useNavigate();
     const keyboardRef = useRef(null);
-    const buttonRef = useRef(null);
+    const channelsRef = useRef(null);
+    const remoteButtonRef = useRef(null);
+    const channelsButtonRef = useRef(null);
 
     const handleButtonClick = (number) => {
         onKeyPress({key: number});
     };
 
-    const toggleKeyboard = () => {
-        const keyboaard = keyboardRef.current;
-        const button = buttonRef.current;
-        if (keyboaard.classList.contains("hidden")) {
-            keyboaard.classList.remove("hidden");
-            keyboaard.classList.add("visible");
+    const toggleRemote = () => {
+        const keyboard = keyboardRef.current;
+        const button = remoteButtonRef.current;
+        if (keyboard.classList.contains("hidden")) {
+            keyboard.classList.remove("hidden");
+            keyboard.classList.add("visible");
             button.classList.remove("shrink");
             button.classList.add("expand");
         } else {
-            keyboaard.classList.remove("visible");
-            keyboaard.classList.add("hidden");
+            keyboard.classList.remove("visible");
+            keyboard.classList.add("hidden");
             button.classList.remove("expand");
             button.classList.add("shrink");
         }
     };
 
+    const toggleChannels = () => {
+        const channels = channelsRef.current;
+        const button = channelsButtonRef.current;
+        if (channels.classList.contains("hidden")) {
+            channels.classList.remove("hidden");
+            channels.classList.add("visible");
+            button.classList.remove("shrink-channels");
+            button.classList.add("expand-channels");
+        } else {
+            channels.classList.remove("visible");
+            channels.classList.add("hidden");
+            button.classList.remove("expand-channels");
+            button.classList.add("shrink-channels");
+        }
+    };
+
     return (
-        <div style={styles.keyboardRow} className={"keyboard"}>
-            <button
-                ref={buttonRef}
-                key={"^"}
-                className={"expand"}
-                onClick={toggleKeyboard}
-            >
-                {""}
-            </button>
-            <div ref={keyboardRef}>
+        <div className={"controls-bar keyboard no-events"}>
+            <div className="no-events">
+                <button
+                    ref={remoteButtonRef}
+                    key={"^"}
+                    className={"expand remote-button active-events"}
+                    onClick={toggleRemote}
+                />
                 <div
-                className="no-events"
-                    style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        flexWrap: "wrap",
-                        width: 250,
-                        justifyContent: "space-around",
-                        padding: "10px",
-                    }}
+                    ref={keyboardRef}
+                    className="no-events"
+                    style={{position: "absolute"}}
                 >
-                    {remoteButtons.map((number) => (
+                    <div
+                        className="no-events"
+                        style={{
+                            display: "flex",
+                            flexDirection: "row",
+                            flexWrap: "wrap",
+                            width: 250,
+                            justifyContent: "space-around",
+                            padding: "10px",
+                        }}
+                    >
+                        {remoteButtons.map((number) => (
+                            <button
+                                key={number.value}
+                                className="active-events no-select"
+                                style={styles.button}
+                                onClick={() => handleButtonClick(number.value)}
+                            >
+                                {number.symbol}
+                            </button>
+                        ))}
+                    </div>
+                    <div
+                        className="no-events"
+                        style={{
+                            display: "flex",
+                            flexDirection: "row",
+                            flexWrap: "wrap",
+                            width: 250,
+                            justifyContent: "space-around",
+                            padding: "10px",
+                        }}
+                    >
                         <button
-                            key={number.value}
-                            className="active-events no-select"
+                            key={style}
                             style={styles.button}
-                            onClick={() => handleButtonClick(number.value)}
+                            className="active-events no-select"
+                            onClick={() => {
+                                navigate("/" + otherStyle);
+                            }}
                         >
-                            {number.symbol}
+                            <img
+                                src={icons[otherStyle]}
+                                width="20"
+                                height="20"
+                                alt="grid"
+                            />
+                        </button>
+                        <button
+                            key={"0"}
+                            style={styles.button}
+                            className="active-events no-select"
+                            onClick={() => handleButtonClick("mute")}
+                        >
+                            {"🔇"}
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div className="active-events">
+                <button
+                    ref={channelsButtonRef}
+                    key={"^"}
+                    className={"expand-channels channels-button active-events"}
+                    onClick={toggleChannels}
+                />
+                <div ref={channelsRef} className="no-events">
+                    {channels.map((channel, index) => (
+                        <button
+                            key={channel.name}
+                            className="active-events no-select active-events"
+                            style={{...styles.button, ...{backgroundImage: `url(${channel.img})`, backgroundSize: "contain", backgroundPosition:"center", backgroundRepeat: "no-repeat"}}}
+                            onClick={() => handleButtonClick(index + 1)}
+                        >
                         </button>
                     ))}
-                </div>
-                <div
-                 style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    flexWrap: "wrap",
-                    width: 250,
-                    justifyContent: "space-around",
-                    padding: "10px",
-                }}>
-
-                <button
-                    key={"grid"}
-                    style={styles.button}
-                    className="active-events no-select"
-                    onClick={() => {
-                        navigate("/grid");
-                    }}
-                >
-                    <img src={gridIcon} width="20" height="20" alt="grid" />
-                </button>
-                <button
-                    key={"0"}
-                    style={styles.button}
-                    className="active-events no-select"
-                    onClick={() => handleButtonClick("mute")}
-                >
-                    {"🔇"}
-                </button>
-                <button
-                    key={"slider"}
-                    style={styles.button}
-                    className="active-events no-select"
-                    onClick={() => {
-                        navigate("/slider");
-                    }}
-                >
-                    <img src={sliderIcon} width="23" height="20" alt="slider" />
-                </button>
                 </div>
             </div>
         </div>
@@ -121,11 +165,6 @@ const NumberKeyboard = ({onKeyPress, channels}) => {
 };
 
 const styles = {
-    keyboardRow: {
-        display: "flex",
-        justifyContent: "space-around",
-        padding: "10px",
-    },
     button: {
         padding: "15px 25px",
         height: "60px",

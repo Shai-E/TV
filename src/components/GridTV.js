@@ -3,11 +3,11 @@ import Video from "./Video";
 import {useParams} from "react-router-dom";
 import NumberKeyboard from "./NumberKeyboard";
 
-const GridTV = ({ channelsArray }) => {
+const GridTV = ({channelsArray}) => {
     const playerRef = useRef({});
     const videoRef = useRef({});
     const currentChannel = useRef(0);
-    const { style } = useParams();
+    const {style} = useParams();
 
     const channelInputRef = useRef(""); // Store the accumulated channel input
     const debounceTimerRef = useRef(null); // Store the debounce timer
@@ -37,13 +37,17 @@ const GridTV = ({ channelsArray }) => {
         }
     };
 
+    const onResize = () => {};
+
     const handleChannelInput = () => {
         const channelNumber = parseInt(channelInputRef.current, 10);
         if (
             channelNumber >= 0 &&
             channelNumber <= Object.keys(playerRef.current).length
         ) {
-            currentChannel.current = channelNumber;
+            if (channelNumber !== 0) {
+                currentChannel.current = channelNumber;
+            }
             handleMuted(channelNumber);
         }
         channelInputRef.current = ""; // Clear the accumulated input after processing
@@ -51,13 +55,13 @@ const GridTV = ({ channelsArray }) => {
 
     const listener = (e) => {
         if (e.key === "mute") {
-            channelInputRef.current="";
+            channelInputRef.current = "";
             handleMuted(0);
         }
-        
+
         if (parseInt(e.key) >= 0 && parseInt(e.key) <= 9) {
             channelInputRef.current += e.key;
-            
+
             // Clear the previous debounce timer
             if (debounceTimerRef.current) {
                 clearTimeout(debounceTimerRef.current);
@@ -70,14 +74,12 @@ const GridTV = ({ channelsArray }) => {
         }
         if (e.key === "ArrowRight") {
             if (
-                currentChannel.current <
-                Object.keys(playerRef.current).length
+                currentChannel.current < Object.keys(playerRef.current).length
             ) {
                 currentChannel.current++;
                 handleMuted(currentChannel.current);
             } else if (
-                currentChannel.current ===
-                Object.keys(playerRef.current).length
+                currentChannel.current === Object.keys(playerRef.current).length
             ) {
                 currentChannel.current = 1;
                 handleMuted(currentChannel.current);
@@ -88,9 +90,7 @@ const GridTV = ({ channelsArray }) => {
                 currentChannel.current--;
                 handleMuted(currentChannel.current);
             } else if (currentChannel.current === 1) {
-                currentChannel.current = Object.keys(
-                    playerRef.current
-                ).length;
+                currentChannel.current = Object.keys(playerRef.current).length;
                 handleMuted(currentChannel.current);
             }
         }
@@ -98,13 +98,30 @@ const GridTV = ({ channelsArray }) => {
     useEffect(() => {
         window.addEventListener("keydown", listener);
 
+        const handleResize = () => {
+            if (playerRef.current) {
+                videoRef.current[
+                    currentChannel.current
+                ]?.current.scrollIntoView({
+                    behavior: "smooth",
+                    block: "center",
+                    inline: "center",
+                });
+            }
+        };
+
+        handleResize();
+
+        window.addEventListener("resize", handleResize);
+
         return () => {
+            window.removeEventListener("resize", handleResize);
             window.removeEventListener("keydown", listener);
             if (debounceTimerRef.current) {
                 clearTimeout(debounceTimerRef.current);
             }
         };
-    }, [playerRef.current]);
+    }, [playerRef.current, currentChannel.current]);
 
     const defaultOptions = (src) => {
         return {
@@ -128,7 +145,7 @@ const GridTV = ({ channelsArray }) => {
 
     const styles = {
         grid: {
-            screen: { flex: 1, height: "100%" },
+            screen: {flex: 1, height: "100%"},
             width: 200,
             container: {
                 display: "flex",
@@ -140,6 +157,7 @@ const GridTV = ({ channelsArray }) => {
                 justifyContent: "flex-start",
                 alignItems: "flex-start",
                 height: "20%",
+                positions: "relative",
             },
         },
         slider: {
@@ -158,25 +176,32 @@ const GridTV = ({ channelsArray }) => {
                 marginLeft: 10,
                 gap: 20,
                 flex: 1,
+                positions: "relative",
             },
         },
     };
 
     return (
         <div style={styles[style || "slider"].screen}>
-            <div style={{ position: "relative" }}>
+            <div style={{position: "relative"}}>
                 <div
+                    className="no-events"
                     style={{
                         position: "fixed",
                         display: "flex",
                         flexDirection: "row",
+                        pointerEvents: "fill",
                         top: 0,
                         left: 0,
-                        height: 90,
+                        height: 0,
                         zIndex: 100,
                     }}
                 >
-                    <NumberKeyboard onKeyPress={listener} channels={channelsArray} />
+                    <NumberKeyboard
+                        onKeyPress={listener}
+                        channels={channelsArray}
+                        style={style}
+                    />
                 </div>
             </div>
             <div style={styles[style || "slider"].container}>
