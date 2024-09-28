@@ -19,6 +19,46 @@ html, body {
   pointer-events: none;
 }
 
+
+.hidden {
+  transform: translateY(-100%);
+  opacity: 0;
+  transition: transform 0.5s, opacity 0.5s;
+}
+
+.visible {
+  transform: translateY(0);
+  opacity: 1;
+  transition: transform 0.5s, opacity 0.5s;
+}
+
+.shrink {
+  width: 1rem;
+  min-width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  background-color: rgba(255, 0, 0, 0.505);
+  border: 1px solid #ffffff25;
+  font-size: 0px;
+  cursor: pointer;
+  margin: 5px;
+  padding: 0;
+  transition: width 0.5s, height 0.5s, border-radius 0.5s, background-color 0.5s, font-size 0.5s, padding 0.5s;
+}
+
+.expand {
+  width: 60px; /* Set to your desired expanded width */
+  height: 50px; /* Set to your desired expanded height */
+  padding: 15px 25px;
+  font-size: 18px;
+  cursor: pointer;
+  margin: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+  transition: width 0.5s, height 0.5s, border-radius 0.5s, background-color 0.5s, font-size 0.5s, padding 0.5s;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;

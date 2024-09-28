@@ -135,14 +135,11 @@ const GridTV = ({channelsArray}) => {
 
     return (
         <div style={styles[style || "slider"].screen}>
-            <div style={{position: "relative", height: 90}}>
-                <div style={{position: "fixed", top: 0, left: 0}}>
+            {/* <div style={{position: "relative", height: 90}}> */}
+                <div style={{position: "fixed", display:"flex", flexDirection:"row", top: 0, left: 0, height: 90, zIndex: 100}}>
                     <NumberKeyboard onKeyPress={handleMuted} />
-                    <h1 style={{color: "white", textAlign: "center"}}>
-                        Press 0-9 to switch channels
-                    </h1>
                 </div>
-            </div>
+            {/* </div> */}
             <div style={styles[style || "slider"].container}>
                 {channelsArray?.map((channel, index) => {
                     return (
