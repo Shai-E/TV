@@ -15,8 +15,15 @@ const GridTV = ({channelsArray}) => {
                 value.muted(true);
             }
         });
-        if (playerRef.current[player]) {
-            playerRef.current[player].muted(false);
+        const currentPlayer = playerRef.current[player];
+        if (currentPlayer) {
+            currentPlayer.muted(false);
+            const isPlaying = !currentPlayer.paused();
+            if (isPlaying) {
+                currentPlayer.liveTracker.seekToLiveEdge(); // Go to live edge
+            } else {
+                currentPlayer.play(); // Start playing where it left off
+            }
         }
         if (videoRef.current[player]) {
             videoRef.current[player].current.scrollIntoView({
@@ -78,6 +85,9 @@ const GridTV = ({channelsArray}) => {
             responsive: true,
             fluid: true,
             liveui: true,
+            liveTracker:{ 
+                liveTolerance:15
+            },
             sources: [
                 {
                     src: src,
@@ -128,6 +138,9 @@ const GridTV = ({channelsArray}) => {
             <div style={{position: "relative", height: 90}}>
                 <div style={{position: "fixed", top: 0, left: 0}}>
                     <NumberKeyboard onKeyPress={handleMuted} />
+                    <h1 style={{color: "white", textAlign: "center"}}>
+                        Press 0-9 to switch channels
+                    </h1>
                 </div>
             </div>
             <div style={styles[style || "slider"].container}>
