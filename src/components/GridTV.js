@@ -163,17 +163,14 @@ const GridTV = ({channelsArray}) => {
         slider: {
             screen: {
                 display: "flex",
-                flex: 1,
-                flexDirection: "column",
-                justifyContent: "space-between",
                 height: "100%",
             },
             width: window.innerWidth * 0.9,
             container: {
+                marginTop: 45,
+                marginBottom: 45,
                 display: "flex",
                 flexDirection: "row",
-                marginRight: 10,
-                marginLeft: 10,
                 gap: 20,
                 flex: 1,
                 positions: "relative",

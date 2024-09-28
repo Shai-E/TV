@@ -153,10 +153,19 @@ const NumberKeyboard = ({onKeyPress, channels, style}) => {
                         <button
                             key={channel.name}
                             className="active-events no-select active-events"
-                            style={{...styles.button, ...{backgroundImage: `url(${channel.img})`, backgroundSize: "contain", backgroundPosition:"center", backgroundRepeat: "no-repeat"}}}
+                            style={{
+                                ...styles.button,
+                                ...{
+                                    backgroundImage: `url(${channel.img})`,
+                                    backgroundSize: "contain",
+                                    backgroundPosition: "center",
+                                    backgroundRepeat: "no-repeat",
+                                    zIndex: 101,
+                                    position: "relative",
+                                },
+                            }}
                             onClick={() => handleButtonClick(index + 1)}
-                        >
-                        </button>
+                        ></button>
                     ))}
                 </div>
             </div>
@@ -178,7 +187,8 @@ const styles = {
         margin: "5px",
         borderRadius: "50%",
         border: "1px solid #ccc",
-        backgroundColor: "#f1f1f1",
+        backgroundColor: "white",
+        position: "relative",
     },
 };
 
