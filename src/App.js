@@ -30,9 +30,43 @@ function App() {
                     url: "https://ch14-channel14-content.akamaized.net/hls/live/2104807/CH14_CHANNEL14/2/streamPlaylist.m3u8",
                     img: require('./assets/images/now.jpg'),
                 },
+                {
+                    name: "i24",
+                    channel: 15,
+                    url: 'https://bcovlive-a.akamaihd.net/d89ede8094c741b7924120b27764153c/eu-central-1/5377161796001/profile_0/chunklist.m3u8',
+                    img: require('./assets/images/i24.png'),
+                }
             ],
+            other: [
+                // {
+                //     name: "Hinuchit",
+                //     channel: 23,
+                //     url: 'https://kan23.media.kan.org.il/hls/live/2024691/2024691/source1_4k/chunklist.m3u8',
+                //     img: require('./assets/images/hinuchit.jpg'),
+                // }, 
+            ]
         },
+        international: {
+            news: [
+                {
+                    name: "Fox News",
+                    channel: 2,
+                    url: 'https://dcs-live-ue1.mp.lura.live/server/play/5Awwm3GfagVzfpdA/rendition.m3u8?track=video-0&anvsid=m177618711-ndf4e88e6979aeb9ec550e1f6522dbf01&ts=1727554853&anvtrid=dfd918cf26a108eba51770a448f9f979',
+                    img: require('./assets/images/Fox_News.png'),
+                },
+            ],
+            other: [
+  
+            ]
+        }
     };
+
+    const allChannels = [
+        ...channels.israeli.news,
+        ...channels.israeli.other,
+        ...channels.international.news,
+        ...channels.international.other,
+    ];
 
     return (
         <div className="App" style={{height: "100%", flex: 1}}>
@@ -41,7 +75,7 @@ function App() {
                     <Route
                         path="/:style"
                         element={
-                            <GridTV channelsArray={channels.israeli.news} />
+                            <GridTV channelsArray={allChannels} />
                         }
                     />
                 </Routes>

@@ -37,8 +37,6 @@ const GridTV = ({channelsArray}) => {
         }
     };
 
-    const onResize = () => {};
-
     const handleChannelInput = () => {
         const channelNumber = parseInt(channelInputRef.current, 10);
         if (
@@ -92,6 +90,15 @@ const GridTV = ({channelsArray}) => {
             } else if (currentChannel.current === 1) {
                 currentChannel.current = Object.keys(playerRef.current).length;
                 handleMuted(currentChannel.current);
+            }
+        }
+        if (e.key === "grid") {
+            if (videoRef.current[currentChannel.current]) {
+                videoRef.current[currentChannel.current].current.scrollIntoView({
+                    behavior: "smooth",
+                    block: "center",
+                    inline: "center",
+                });
             }
         }
     };
@@ -158,6 +165,7 @@ const GridTV = ({channelsArray}) => {
                 alignItems: "flex-start",
                 height: "20%",
                 positions: "relative",
+                marginTop: 45,
             },
         },
         slider: {
