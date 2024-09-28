@@ -3,11 +3,14 @@ import Video from "./Video";
 import {useParams} from "react-router-dom";
 import NumberKeyboard from "./NumberKeyboard";
 
-const GridTV = ({channelsArray}) => {
+const GridTV = ({ channelsArray }) => {
     const playerRef = useRef({});
     const videoRef = useRef({});
     const currentChannel = useRef(0);
-    const {style} = useParams();
+    const { style } = useParams();
+
+    const channelInputRef = useRef(""); // Store the accumulated channel input
+    const debounceTimerRef = useRef(null); // Store the debounce timer
 
     const handleMuted = (player) => {
         Object.entries(playerRef.current).forEach(([key, value]) => {
@@ -34,46 +37,72 @@ const GridTV = ({channelsArray}) => {
         }
     };
 
-    useEffect(() => {
-        const listener = (e) => {
+    const handleChannelInput = () => {
+        const channelNumber = parseInt(channelInputRef.current, 10);
+        if (
+            channelNumber >= 0 &&
+            channelNumber <= Object.keys(playerRef.current).length
+        ) {
+            currentChannel.current = channelNumber;
+            handleMuted(channelNumber);
+        }
+        channelInputRef.current = ""; // Clear the accumulated input after processing
+    };
+
+    const listener = (e) => {
+        if (e.key === "mute") {
+            channelInputRef.current="";
+            handleMuted(0);
+        }
+        
+        if (parseInt(e.key) >= 0 && parseInt(e.key) <= 9) {
+            channelInputRef.current += e.key;
+            
+            // Clear the previous debounce timer
+            if (debounceTimerRef.current) {
+                clearTimeout(debounceTimerRef.current);
+            }
+
+            // Set a new debounce timer
+            debounceTimerRef.current = setTimeout(() => {
+                handleChannelInput();
+            }, 500);
+        }
+        if (e.key === "ArrowRight") {
             if (
-                parseInt(e.key) >= 0 &&
-                parseInt(e.key) <= Object.keys(playerRef.current).length
+                currentChannel.current <
+                Object.keys(playerRef.current).length
             ) {
-                currentChannel.current = +e.key;
-                handleMuted(e.key);
+                currentChannel.current++;
+                handleMuted(currentChannel.current);
+            } else if (
+                currentChannel.current ===
+                Object.keys(playerRef.current).length
+            ) {
+                currentChannel.current = 1;
+                handleMuted(currentChannel.current);
             }
-            if (e.key === "ArrowRight") {
-                if (
-                    currentChannel.current <
-                    Object.keys(playerRef.current).length
-                ) {
-                    currentChannel.current++;
-                    handleMuted(currentChannel.current);
-                } else if (
-                    currentChannel.current ===
-                    Object.keys(playerRef.current).length
-                ) {
-                    currentChannel.current = 1;
-                    handleMuted(currentChannel.current);
-                }
+        }
+        if (e.key === "ArrowLeft") {
+            if (currentChannel.current > 1) {
+                currentChannel.current--;
+                handleMuted(currentChannel.current);
+            } else if (currentChannel.current === 1) {
+                currentChannel.current = Object.keys(
+                    playerRef.current
+                ).length;
+                handleMuted(currentChannel.current);
             }
-            if (e.key === "ArrowLeft") {
-                if (currentChannel.current > 1) {
-                    currentChannel.current--;
-                    handleMuted(currentChannel.current);
-                } else if (currentChannel.current === 1) {
-                    currentChannel.current = Object.keys(
-                        playerRef.current
-                    ).length;
-                    handleMuted(currentChannel.current);
-                }
-            }
-        };
+        }
+    };
+    useEffect(() => {
         window.addEventListener("keydown", listener);
 
         return () => {
             window.removeEventListener("keydown", listener);
+            if (debounceTimerRef.current) {
+                clearTimeout(debounceTimerRef.current);
+            }
         };
     }, [playerRef.current]);
 
@@ -85,8 +114,8 @@ const GridTV = ({channelsArray}) => {
             responsive: true,
             fluid: true,
             liveui: true,
-            liveTracker:{ 
-                liveTolerance:15
+            liveTracker: {
+                liveTolerance: 15,
             },
             sources: [
                 {
@@ -99,7 +128,7 @@ const GridTV = ({channelsArray}) => {
 
     const styles = {
         grid: {
-            screen: {flex: 1, height: "100%"},
+            screen: { flex: 1, height: "100%" },
             width: 200,
             container: {
                 display: "flex",
@@ -128,18 +157,28 @@ const GridTV = ({channelsArray}) => {
                 marginRight: 10,
                 marginLeft: 10,
                 gap: 20,
-                flex:1,
+                flex: 1,
             },
         },
     };
 
     return (
         <div style={styles[style || "slider"].screen}>
-            {/* <div style={{position: "relative", height: 90}}> */}
-                <div style={{position: "fixed", display:"flex", flexDirection:"row", top: 0, left: 0, height: 90, zIndex: 100}}>
-                    <NumberKeyboard onKeyPress={handleMuted} />
+            <div style={{ position: "relative" }}>
+                <div
+                    style={{
+                        position: "fixed",
+                        display: "flex",
+                        flexDirection: "row",
+                        top: 0,
+                        left: 0,
+                        height: 90,
+                        zIndex: 100,
+                    }}
+                >
+                    <NumberKeyboard onKeyPress={listener} channels={channelsArray} />
                 </div>
-            {/* </div> */}
+            </div>
             <div style={styles[style || "slider"].container}>
                 {channelsArray?.map((channel, index) => {
                     return (
