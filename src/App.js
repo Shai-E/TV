@@ -48,12 +48,12 @@ function App() {
         },
         international: {
             news: [
-                {
-                    name: "Fox News",
-                    channel: 2,
-                    url: 'https://dcs-live-ue1.mp.lura.live/server/play/5Awwm3GfagVzfpdA/rendition.m3u8?track=video-0&anvsid=m177618711-ndf4e88e6979aeb9ec550e1f6522dbf01&ts=1727554853&anvtrid=dfd918cf26a108eba51770a448f9f979',
-                    img: require('./assets/images/Fox_News.png'),
-                },
+                // {
+                //     name: "Fox News",
+                //     channel: 2,
+                //     url: 'https://dcs-live-ue1.mp.lura.live/server/play/5Awwm3GfagVzfpdA/rendition.m3u8?track=video-0&anvsid=m177618711-ndf4e88e6979aeb9ec550e1f6522dbf01&ts=1727554853&anvtrid=dfd918cf26a108eba51770a448f9f979',
+                //     img: require('./assets/images/Fox_News.png'),
+                // },
             ],
             other: [
   
