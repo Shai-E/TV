@@ -35,6 +35,12 @@ function App() {
                     channel: 15,
                     url: 'https://bcovlive-a.akamaihd.net/d89ede8094c741b7924120b27764153c/eu-central-1/5377161796001/profile_0/chunklist.m3u8',
                     img: require('./assets/images/i24.png'),
+                },
+                {
+                    name: "Kneset",
+                    channel: 20,
+                    url: 'https://contactgbs.mmdlive.lldns.net/contactgbs/a40693c59c714fecbcba2cee6e5ab957/chunklist_b564000.m3u8',
+                    img: require('./assets/images/kneset.jpg'),
                 }
             ],
             other: [
