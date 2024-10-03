@@ -8,7 +8,7 @@ const icons = {
     slider: sliderIcon,
 };
 
-const NumberKeyboard = ({onKeyPress, channels, style}) => {
+const NumberKeyboard = ({onKeyPress, channels, style, changeVideoSize}) => {
     const otherStyle = style === "grid" ? "slider" : "grid";
 
     const remoteButtons = [
@@ -127,11 +127,11 @@ const NumberKeyboard = ({onKeyPress, channels, style}) => {
                                 src={icons[otherStyle]}
                                 width="20"
                                 height="20"
-                                alt="grid"
+                                alt={otherStyle}
                             />
                         </button>
                         <button
-                            key={"0"}
+                            key={"mute"}
                             style={styles.button}
                             className="active-events no-select"
                             onClick={() => handleButtonClick("mute")}
@@ -139,6 +139,26 @@ const NumberKeyboard = ({onKeyPress, channels, style}) => {
                             {"🔇"}
                         </button>
                     </div>
+                    {
+                        style==="grid" && (
+                            <div
+                            className="active-events"
+                            style={{
+                                display: "flex",
+                                flexDirection: "row",
+                                flexWrap: "wrap",
+                                width: 250,
+                                justifyContent: "space-around",
+                                padding: "10px",
+                            }}
+                        >
+                            <input type="range" defaultValue={20} min={20} max={100} onChange={(e)=>{
+                                const newValue = e.currentTarget.value + "%";
+                                changeVideoSize(newValue);
+                            }}/>
+                            </div>
+                        )
+                    }
                 </div>
             </div>
             <div className="active-events">

@@ -38,10 +38,10 @@ function App() {
                 },
                 {
                     name: "Kneset",
-                    channel: 20,
+                    channel: 99,
                     url: 'https://contactgbs.mmdlive.lldns.net/contactgbs/a40693c59c714fecbcba2cee6e5ab957/chunklist_b564000.m3u8',
                     img: require('./assets/images/kneset.jpg'),
-                }
+                },
             ],
             other: [
                 // {

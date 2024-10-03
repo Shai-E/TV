@@ -5,6 +5,7 @@ import NumberKeyboard from "./NumberKeyboard";
 
 const GridTV = ({channelsArray}) => {
     const playerRef = useRef({});
+    const playerContainerRef = useRef({});
     const videoRef = useRef({});
     const currentChannel = useRef(0);
     const {style} = useParams();
@@ -161,7 +162,7 @@ const GridTV = ({channelsArray}) => {
                 marginRight: 10,
                 marginLeft: 10,
                 gap: 20,
-                justifyContent: "flex-start",
+                justifyContent: "center",
                 alignItems: "flex-start",
                 height: "20%",
                 positions: "relative",
@@ -206,10 +207,13 @@ const GridTV = ({channelsArray}) => {
                         onKeyPress={listener}
                         channels={channelsArray}
                         style={style}
+                        changeVideoSize={(newSize)=>{
+                            playerContainerRef.current.style.height = newSize;
+                        }}
                     />
                 </div>
             </div>
-            <div style={styles[style || "slider"].container}>
+            <div ref={playerContainerRef} style={styles[style || "slider"].container}>
                 {channelsArray?.map((channel, index) => {
                     return (
                         <Video
