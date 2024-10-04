@@ -1,24 +1,52 @@
-import {useEffect, useRef} from "react";
-import Video from "./Video";
+import React, {useEffect, useRef} from "react";
 import {useParams} from "react-router-dom";
-import NumberKeyboard from "./NumberKeyboard";
+import Video from "./VideoJS";
+import NumberKeyboard, { DisplayTypes } from "./NumberKeyboard";
+import "./GridTV.css";
 
-const GridTV = ({channelsArray}) => {
-    const playerRef = useRef({});
-    const playerContainerRef = useRef({});
-    const videoRef = useRef({});
-    const currentChannel = useRef(0);
-    const {style} = useParams();
+interface Channel {
+    name: string;
+    channel: number;
+    url: string;
+    img: string;
+}
 
-    const channelInputRef = useRef(""); // Store the accumulated channel input
-    const debounceTimerRef = useRef(null); // Store the debounce timer
+interface GridTVProps {
+    channelsArray: Channel[];
+}
 
-    const handleMuted = (player) => {
+type PlayerRef = {
+    [key: number]: any; // Replace `any` with the type of your video player instance if available
+};
+
+type VideoRef = {
+    [key: number]: React.RefObject<HTMLDivElement>;
+};
+
+const GridTV: React.FC<GridTVProps> = ({channelsArray}) => {
+    const playerRef = useRef<PlayerRef>({});
+    const playerContainerRef = useRef<HTMLDivElement | null>(null);
+    const videoRef = useRef<VideoRef>({});
+    const currentChannel = useRef<number>(0);
+    const {style} = useParams<{style?: DisplayTypes}>();
+
+    const channelInputRef = useRef<string>(""); // Store the accumulated channel input
+    const debounceTimerRef = useRef<NodeJS.Timeout | null>(null); // Store the debounce timer
+
+    const handleResize = (player?: any) => {
+        videoRef.current[player || currentChannel.current]?.current?.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+            inline: "center",
+        });
+    };
+
+    const handleMuted = (player: number) => {
         Object.entries(playerRef.current).forEach(([key, value]) => {
-            if (key !== player) {
+            if (parseInt(key) !== player) {
                 value.muted(true);
             }
-        });        
+        });
         const currentPlayer = playerRef.current[player];
         if (currentPlayer) {
             currentPlayer.muted(false);
@@ -29,13 +57,7 @@ const GridTV = ({channelsArray}) => {
                 currentPlayer.play(); // Start playing where it left off
             }
         }
-        if (videoRef.current[player]?.current) {
-            videoRef.current[player].current.scrollIntoView({
-                behavior: "smooth",
-                block: "center",
-                inline: "center",
-            });
-        }
+        handleResize(player);
     };
 
     const handleChannelInput = () => {
@@ -52,7 +74,7 @@ const GridTV = ({channelsArray}) => {
         channelInputRef.current = ""; // Clear the accumulated input after processing
     };
 
-    const listener = (e) => {
+    const listener = (e: KeyboardEvent) => {
         if (e.key === "mute") {
             channelInputRef.current = "";
             handleMuted(0);
@@ -94,29 +116,16 @@ const GridTV = ({channelsArray}) => {
             }
         }
         if (e.key === "grid") {
-            if (videoRef.current[currentChannel.current]) {
-                videoRef.current[currentChannel.current].current.scrollIntoView({
-                    behavior: "smooth",
-                    block: "center",
-                    inline: "center",
-                });
-            }
+            videoRef.current[currentChannel.current]?.current?.scrollIntoView({
+                behavior: "smooth",
+                block: "center",
+                inline: "center",
+            });
         }
     };
+
     useEffect(() => {
         window.addEventListener("keydown", listener);
-
-        const handleResize = () => {
-            if (playerRef.current) {
-                videoRef.current[
-                    currentChannel.current
-                ]?.current.scrollIntoView({
-                    behavior: "smooth",
-                    block: "center",
-                    inline: "center",
-                });
-            }
-        };
 
         handleResize();
 
@@ -129,9 +138,10 @@ const GridTV = ({channelsArray}) => {
                 clearTimeout(debounceTimerRef.current);
             }
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [playerRef.current, currentChannel.current]);
 
-    const defaultOptions = (src) => {
+    const defaultOptions = (src: string) => {
         return {
             muted: true,
             autoplay: true,
@@ -164,8 +174,8 @@ const GridTV = ({channelsArray}) => {
                 gap: 20,
                 justifyContent: "center",
                 alignItems: "flex-start",
-                height: "20%",
-                positions: "relative",
+                height: "35%",
+                position: "relative",
                 marginTop: 45,
             },
         },
@@ -182,54 +192,49 @@ const GridTV = ({channelsArray}) => {
                 flexDirection: "row",
                 gap: 20,
                 flex: 1,
-                positions: "relative",
+                position: "relative",
             },
         },
     };
 
+    const changeVideoSize = (newSize: string) => {
+        if (playerContainerRef.current) {
+            playerContainerRef.current.style.height = newSize;
+            handleResize();
+        }
+    }
+
     return (
-        <div style={styles[style || "slider"].screen}>
-            <div style={{position: "relative"}}>
-                <div
-                    className="no-events"
-                    style={{
-                        position: "fixed",
-                        display: "flex",
-                        flexDirection: "row",
-                        pointerEvents: "fill",
-                        top: 0,
-                        left: 0,
-                        height: 0,
-                        zIndex: 100,
-                    }}
-                >
+        <div className={`screen ${style === "grid" ? "grid-screen" : "slider-screen"}`}>
+            <div style={{ position: "relative" }}>
+                <div className="fixed-number-keyboard no-events">
                     <NumberKeyboard
                         onKeyPress={listener}
                         channels={channelsArray}
-                        style={style}
-                        changeVideoSize={(newSize)=>{
-                            playerContainerRef.current.style.height = newSize;
-                        }}
+                        style={style as DisplayTypes}
+                        changeVideoSize={changeVideoSize}
                     />
                 </div>
             </div>
-            <div ref={playerContainerRef} style={styles[style || "slider"].container}>
-                {channelsArray?.map((channel, index) => {
-                    return (
-                        <Video
-                            options={defaultOptions(channel.url)}
-                            key={channel.name}
-                            getPlayer={(player, video) => {
-                                playerRef.current[index + 1] = player;
-                                videoRef.current[index + 1] = video;
-                            }}
-                            width={styles[style || "slider"].width}
-                        />
-                    );
-                })}
+            <div
+                ref={playerContainerRef}
+                className={`${style === "grid" ? "grid-container" : "slider-container"}`}
+            >
+                {channelsArray?.map((channel, index) => (
+                    <Video
+                        options={defaultOptions(channel.url)}
+                        key={channel.name}
+                        getPlayer={(player, video) => {
+                            playerRef.current[index + 1] = player;
+                            videoRef.current[index + 1] = video;
+                        }}
+                        width={styles[style || "slider"].width}
+                    />
+                ))}
             </div>
         </div>
     );
+    
 };
 
 export default GridTV;

@@ -1,0 +1,51 @@
+/* GridTV.css */
+
+.screen {
+    height: 100%;
+}
+
+.grid-screen {
+    display: flex;
+    flex: 1;
+    height: 100%;
+}
+
+.grid-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-right: 10px;
+    margin-left: 10px;
+    gap: 20px;
+    justify-content: center;
+    align-items: flex-start;
+    height: 35%;
+    position: relative;
+    margin-top: 45px;
+}
+
+.slider-screen {
+    display: flex;
+    height: 100%;
+}
+
+.slider-container {
+    margin-top: 45px;
+    margin-bottom: 45px;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    flex: 1;
+    position: relative;
+}
+
+.fixed-number-keyboard {
+    position: fixed;
+    display: flex;
+    flex-direction: row;
+    pointer-events: fill;
+    top: 0;
+    left: 0;
+    height: 0;
+    z-index: 100;
+}

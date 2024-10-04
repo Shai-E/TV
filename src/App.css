@@ -119,15 +119,6 @@ html, body {
   background-color: rgba(0, 0, 255, 0.564);
 }
 
-.controls-bar {
-  display: flex;
-  justify-content: space-between;
-  padding: 10px;
-  width: 100vw;
-  height: 0px;
-  box-sizing: border-box;
-}
-
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;

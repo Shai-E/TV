@@ -1,0 +1,10 @@
+/* VideoJS.css */
+.data-vjs-player {
+    height: 100%;
+}
+
+.video-container {
+    aspect-ratio: 16 / 9;
+    height: 100%;
+    max-width: 100vw;
+}
