@@ -33,8 +33,8 @@ const GridTV: React.FC<GridTVProps> = ({channelsArray}) => {
     const channelInputRef = useRef<string>(""); // Store the accumulated channel input
     const debounceTimerRef = useRef<NodeJS.Timeout | null>(null); // Store the debounce timer
 
-    const handleResize = (player?: any) => {
-        videoRef.current[player || currentChannel.current]?.current?.scrollIntoView({
+    const handleResize = () => {
+        videoRef.current[currentChannel.current]?.current?.scrollIntoView({
             behavior: "smooth",
             block: "center",
             inline: "center",
@@ -57,7 +57,11 @@ const GridTV: React.FC<GridTVProps> = ({channelsArray}) => {
                 currentPlayer.play(); // Start playing where it left off
             }
         }
-        handleResize(player);
+        videoRef.current[player]?.current?.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+            inline: "center",
+        });
     };
 
     const handleChannelInput = () => {
