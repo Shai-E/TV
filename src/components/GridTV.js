@@ -18,7 +18,7 @@ const GridTV = ({channelsArray}) => {
             if (key !== player) {
                 value.muted(true);
             }
-        });
+        });        
         const currentPlayer = playerRef.current[player];
         if (currentPlayer) {
             currentPlayer.muted(false);
@@ -29,7 +29,7 @@ const GridTV = ({channelsArray}) => {
                 currentPlayer.play(); // Start playing where it left off
             }
         }
-        if (videoRef.current[player].current) {
+        if (videoRef.current[player]?.current) {
             videoRef.current[player].current.scrollIntoView({
                 behavior: "smooth",
                 block: "center",

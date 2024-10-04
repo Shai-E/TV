@@ -139,19 +139,11 @@ const NumberKeyboard = ({onKeyPress, channels, style, changeVideoSize}) => {
                             {"🔇"}
                         </button>
                     </div>
-                    {
+                </div>
+            </div>
+            {
                         style==="grid" && (
-                            <div
-                            className="active-events"
-                            style={{
-                                display: "flex",
-                                flexDirection: "row",
-                                flexWrap: "wrap",
-                                width: 250,
-                                justifyContent: "space-around",
-                                padding: "10px",
-                            }}
-                        >
+                            <div className="active-events" style={{position: "fixed", top: 10, left: '50%', transform: "translateX(-50%)" }}> 
                             <input type="range" defaultValue={20} min={20} max={100} onChange={(e)=>{
                                 const newValue = e.currentTarget.value + "%";
                                 changeVideoSize(newValue);
@@ -159,8 +151,6 @@ const NumberKeyboard = ({onKeyPress, channels, style, changeVideoSize}) => {
                             </div>
                         )
                     }
-                </div>
-            </div>
             <div className="active-events">
                 <button
                     ref={channelsButtonRef}
