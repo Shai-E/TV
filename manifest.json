@@ -2,7 +2,7 @@
   "short_name": "TV Dashboard",
   "name": "TV Dashboard: watch news simultaneously",
   "id": "/?source=pwa",
-  "start_url": "/?source=pwa",
+  "start_url": "/TV/#grid?source=pwa",
   "icons": [
     {
       "src": "favicon.ico",
