@@ -92,7 +92,6 @@
   input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none; /* Override default look */
     background-color: #000000;
-    /* margin-top: -1px; Centers thumb on the track */
     height: 1rem;
     width: 2px; 
   }
