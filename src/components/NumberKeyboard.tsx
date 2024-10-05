@@ -115,7 +115,7 @@ const NumberKeyboard: React.FC<NumberKeyboardProps> = ({
                     className={"expand-channels channels-button active-events"}
                     onClick={toggleChannels}
                 />
-                <div ref={channelsRef} className="no-events">
+                <div ref={channelsRef} className="no-events channels-container">
                     {channels.map((channel, index) => (
                         <button
                             key={channel.name}

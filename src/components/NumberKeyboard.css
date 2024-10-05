@@ -51,6 +51,17 @@
     background-repeat: no-repeat;
     z-index: 101;
     position: relative;
+    border-radius: 0;
+  }
+
+  .channels-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 250px;
+    position: absolute;
+    right: 0px;
+    top: 120px;
   }
   
   .controls-bar {
@@ -60,4 +71,28 @@
     width: 100vw;
     height: 0px;
     box-sizing: border-box;
+  }
+
+  .channels-hidden {
+    display:none;
+  }
+  
+  .channels-visible {
+    display: flex;
+  }
+
+  input[type="range"] {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 3px;
+    background: #000000;
+    margin: 10px 0;
+  }
+
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none; /* Override default look */
+    background-color: #000000;
+    /* margin-top: -1px; Centers thumb on the track */
+    height: 1rem;
+    width: 2px; 
   }

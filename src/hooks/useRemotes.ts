@@ -27,15 +27,15 @@ export const useRemotes = () => {
     const toggleChannels = () => {
       const channels = channelsRef.current;
       const button = channelsButtonRef.current;
-      if (channels && button) {
-        if (channels.classList.contains("hidden")) {
-          channels.classList.remove("hidden");
-          channels.classList.add("visible");
+      if (channels && button) {        
+        if (channels.classList.contains("channels-hidden")) {
+          channels.classList.remove("channels-hidden");
+          channels.classList.add("channels-visible");
           button.classList.remove("shrink-channels");
           button.classList.add("expand-channels");
         } else {
-          channels.classList.remove("visible");
-          channels.classList.add("hidden");
+          channels.classList.remove("channels-visible");
+          channels.classList.add("channels-hidden");
           button.classList.remove("expand-channels");
           button.classList.add("shrink-channels");
         }
