@@ -128,6 +128,25 @@ const GridTV: React.FC<GridTVProps> = ({channelsArray}) => {
         }
     };
 
+    const changeVideoSize = (newSize: string) => {
+        if (playerContainerRef.current) {
+            playerContainerRef.current.style.height = newSize;
+            handleResize();
+        }
+    }
+
+    const resetVideoSize = () => {
+        if (playerContainerRef.current) {
+            playerContainerRef.current.style.height = '';
+        }
+    }
+
+    useEffect(() => {
+        if (style === 'slider') {
+            resetVideoSize();
+        }
+    },[style])
+
     useEffect(() => {
         window.addEventListener("keydown", listener);
 
@@ -200,13 +219,6 @@ const GridTV: React.FC<GridTVProps> = ({channelsArray}) => {
             },
         },
     };
-
-    const changeVideoSize = (newSize: string) => {
-        if (playerContainerRef.current) {
-            playerContainerRef.current.style.height = newSize;
-            handleResize();
-        }
-    }
 
     return (
         <div className={`screen ${style === "grid" ? "grid-screen" : "slider-screen"}`}>
