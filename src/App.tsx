@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import {HashRouter as Router, Route, Routes} from "react-router-dom";
+import {HashRouter as Router, Route, Routes, Navigate} from "react-router-dom";
 import GridTV from "./components/GridTV";
 import {allChannels} from "./data/channels";
 
@@ -15,6 +15,10 @@ function App() {
                             <GridTV channelsArray={allChannels} />
                         }
                     />
+                        <Route
+                            path="*"
+                            element={<Navigate to="/grid" replace />}
+                        />
                 </Routes>
             </Router>
         </div>
