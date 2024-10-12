@@ -17,7 +17,7 @@ const channels = {
             {
                 name: "Keshet-12",
                 channel: 12,
-                url: "https://mako-streaming.akamaized.net/stream/hls/live/2033791/k12dvr/profile/0/hdntl=exp=1726926801~acl=%2f*~data=hdntl~hmac=99f779508cc7547d56cf41ee596705bfff3964fcbbf39a97c553eb62bf5c2d67/profileManifest.m3u8?_uid=6e55305f-72f1-40ec-8d45-32b40b8caec2&rK=a1&_did=Wd720f40fa73264f1c45804dc924082f89b4",
+                url: 'https://mako-streaming.akamaized.net/stream/hls/live/2033791/k12n12wad/profile/0/hdntl=exp=1728302277~acl=%2f*~data=hdntl~hmac=bbebf1d35582a84fa159680712d90c80cf87bee8f6a6e509a26057526202e7ac/profileManifest.m3u8?_uid=30b800c2-566f-451c-898e-8d45ea61d02c&rK=a1&_did=e9e61596f0245cac69926bf7084c4674d2a975ad',
                 img: keshetImage,
             },
             {
