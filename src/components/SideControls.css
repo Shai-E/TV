@@ -73,21 +73,35 @@
   }
 
   .side-controls-bar {
-      transition: translate var(--animation-timing);
-    translate: -100%;
+    transition: translate var(--animation-timing);
+    translate: -104%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    
     background: linear-gradient(217deg, rgba(255,0,0,.8), rgba(255,0,0,0) 70.71%),
     linear-gradient(127deg, rgba(0,255,0,.8), rgba(0,255,0,0) 70.71%),
     linear-gradient(336deg, rgba(0,0,255,.8), rgba(0,0,255,0) 70.71%);
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 10px;
+
     padding: 10px;
     padding-top: var(--hamburger-height);
     position:fixed;
-    height: 100vh;
+    height: calc(100vh - 20px);
     box-sizing: border-box;
     z-index: 100;
     width: 295px;
+  }
+
+  .hamburger-menu:not(:has(input:checked)):hover + .side-controls-bar {
+    transition: translate var(--animation-timing);
+    translate: -100%;
   }
 
   .hamburger-menu:has(input:checked) + .side-controls-bar {
