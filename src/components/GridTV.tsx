@@ -24,7 +24,7 @@ type VideoRef = {
     [key: number]: React.RefObject<HTMLDivElement>;
 };
 
-const IS_BY_INDEX = false;
+const DEFAULT_IS_BY_INDEX = false;
 
 enum ControlsLayoutOptions {
     SIDE = 'side',
@@ -79,9 +79,9 @@ const GridTV: React.FC<GridTVProps> = ({channelsArray}) => {
         return acc;
     }   , {} as {[key: number]: number});
 
-    const handleChannelInput = () => {
-        const channelNumber = parseInt(channelInputRef.current, 10);
-        const channelToUse = IS_BY_INDEX ? channelNumber : channelsMap[channelNumber];
+    const handleChannelInput = (isByIndex: boolean) => {
+        const channelNumber = parseInt(channelInputRef.current, 10); 
+        const channelToUse = isByIndex ? channelNumber : channelsMap[channelNumber];
         if (
             channelToUse >= 0 &&
             channelToUse <= Object.keys(playerRef.current).length
@@ -94,7 +94,7 @@ const GridTV: React.FC<GridTVProps> = ({channelsArray}) => {
         channelInputRef.current = ""; // Clear the accumulated input after processing
     };
 
-    const listener = (e: KeyboardEvent) => {
+    const listener = (e: KeyboardEvent, isByIndex: boolean = DEFAULT_IS_BY_INDEX) => {
         if (e.key === "mute") {
             channelInputRef.current = "";
             handleMuted(0);
@@ -110,7 +110,7 @@ const GridTV: React.FC<GridTVProps> = ({channelsArray}) => {
 
             // Set a new debounce timer
             debounceTimerRef.current = setTimeout(() => {
-                handleChannelInput();
+                handleChannelInput(isByIndex);
             }, 500);
         }
         if (e.key === "ArrowRight") {

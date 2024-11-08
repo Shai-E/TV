@@ -13,7 +13,7 @@ interface Channel {
 export type DisplayTypes = "grid" | "slider";
 
 interface SideControlsProps {
-    onKeyPress: (e: KeyboardEvent) => void;
+    onKeyPress: (e: KeyboardEvent, isByIndex?: boolean) => void;
     channels: Channel[];
     style: DisplayTypes;
     changeVideoSize: (size: string) => void;
@@ -34,8 +34,8 @@ const SideControls: React.FC<SideControlsProps> = ({
 
     const navigate = useNavigate();
 
-    const handleButtonClick = (number: string) => {
-        onKeyPress({key: number} as KeyboardEvent);
+    const handleButtonClick = (number: string, isByIndex?: boolean) => {
+        onKeyPress({key: number} as KeyboardEvent, isByIndex);
     };
 
     return (
@@ -102,8 +102,10 @@ const SideControls: React.FC<SideControlsProps> = ({
                             style={{
                                 backgroundImage: `url(${channel.img})`,
                             }}
-                            onClick={() =>
-                                handleButtonClick((index + 1).toString())
+                            onClick={() =>{
+                                const isByIndex = true
+                                handleButtonClick((index + 1).toString(), isByIndex)
+                            }
                             }
                         ></button>
                     ))}
