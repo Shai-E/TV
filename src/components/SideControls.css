@@ -8,10 +8,6 @@
     cursor: pointer;
   }
   
-  .keyboard-container {
-    /* position: absolute; */
-  }
-  
   .keyboard-content {
     display: flex;
     flex-direction: row;

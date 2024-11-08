@@ -24,6 +24,13 @@ type VideoRef = {
     [key: number]: React.RefObject<HTMLDivElement>;
 };
 
+const IS_BY_INDEX = false;
+
+enum ControlsLayoutOptions {
+    SIDE = 'side',
+    FLOAT = 'float'
+}
+
 const GridTV: React.FC<GridTVProps> = ({channelsArray}) => {
     const playerRef = useRef<PlayerRef>({});
     const playerContainerRef = useRef<HTMLDivElement | null>(null);
@@ -31,7 +38,7 @@ const GridTV: React.FC<GridTVProps> = ({channelsArray}) => {
     const currentChannel = useRef<number>(0);
     const {style} = useParams<{style?: DisplayTypes}>();
     const maxSizeRef = useRef('100')
-    const [controlsLayout, setControlsLayout] = useState('side')
+    const [controlsLayout, setControlsLayout] = useState(ControlsLayoutOptions.SIDE)
 
     const channelInputRef = useRef<string>(""); // Store the accumulated channel input
     const debounceTimerRef = useRef<NodeJS.Timeout | null>(null); // Store the debounce timer
@@ -67,16 +74,22 @@ const GridTV: React.FC<GridTVProps> = ({channelsArray}) => {
         });
     };
 
+    const channelsMap = channelsArray.reduce((acc, channel, index) => {
+        acc[channel.channel] = index + 1;
+        return acc;
+    }   , {} as {[key: number]: number});
+
     const handleChannelInput = () => {
         const channelNumber = parseInt(channelInputRef.current, 10);
+        const channelToUse = IS_BY_INDEX ? channelNumber : channelsMap[channelNumber];
         if (
-            channelNumber >= 0 &&
-            channelNumber <= Object.keys(playerRef.current).length
+            channelToUse >= 0 &&
+            channelToUse <= Object.keys(playerRef.current).length
         ) {
-            if (channelNumber !== 0) {
-                currentChannel.current = channelNumber;
+            if (channelToUse !== 0) {
+                currentChannel.current = channelToUse;
             }
-            handleMuted(channelNumber);
+            handleMuted(channelToUse);
         }
         channelInputRef.current = ""; // Clear the accumulated input after processing
     };
@@ -226,7 +239,7 @@ const GridTV: React.FC<GridTVProps> = ({channelsArray}) => {
         },
     };
 
-    const DynamicControls = controlsLayout === 'side' ? SideControls : NumberKeyboard
+    const DynamicControls = controlsLayout === ControlsLayoutOptions.SIDE ? SideControls : NumberKeyboard
 
     return (
         <div

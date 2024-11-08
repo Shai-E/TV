@@ -40,7 +40,6 @@ const SideControls: React.FC<SideControlsProps> = ({
 
     return (
         <div className="side-fixed-number-keyboard">
-
             <label htmlFor="sidebar" className="hamburger-menu">
                 <input name="sidebar" id="sidebar" type="checkbox" />
             </label>
