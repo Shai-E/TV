@@ -167,7 +167,9 @@ const GridTV: React.FC<GridTVProps> = ({channelsArray}) => {
     }, [style]);
 
     useEffect(() => {
-        window.addEventListener("keydown", listener);
+        const isByIndex = true;
+        const listenerWithPreference = (e: KeyboardEvent) => listener(e, isByIndex);
+        window.addEventListener("keydown", listenerWithPreference);
 
         handleResize();
 
@@ -175,7 +177,7 @@ const GridTV: React.FC<GridTVProps> = ({channelsArray}) => {
 
         return () => {
             window.removeEventListener("resize", handleResize);
-            window.removeEventListener("keydown", listener);
+            window.removeEventListener("keydown", listenerWithPreference);
             if (debounceTimerRef.current) {
                 clearTimeout(debounceTimerRef.current);
             }
