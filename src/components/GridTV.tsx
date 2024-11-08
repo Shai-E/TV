@@ -1,8 +1,9 @@
-import React, {useEffect, useRef} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {useParams} from "react-router-dom";
 import Video from "./VideoJS";
-import NumberKeyboard, { DisplayTypes } from "./NumberKeyboard";
+import NumberKeyboard, {DisplayTypes} from "./NumberKeyboard";
 import "./GridTV.css";
+import SideControls from "./SideControls";
 
 interface Channel {
     name: string;
@@ -29,6 +30,8 @@ const GridTV: React.FC<GridTVProps> = ({channelsArray}) => {
     const videoRef = useRef<VideoRef>({});
     const currentChannel = useRef<number>(0);
     const {style} = useParams<{style?: DisplayTypes}>();
+    const maxSizeRef = useRef('100')
+    const [controlsLayout, setControlsLayout] = useState('side')
 
     const channelInputRef = useRef<string>(""); // Store the accumulated channel input
     const debounceTimerRef = useRef<NodeJS.Timeout | null>(null); // Store the debounce timer
@@ -130,22 +133,25 @@ const GridTV: React.FC<GridTVProps> = ({channelsArray}) => {
 
     const changeVideoSize = (newSize: string) => {
         if (playerContainerRef.current) {
-            playerContainerRef.current.style.height = newSize;
+            if ((videoRef.current[1]?.current?.clientWidth || 0) < playerContainerRef.current.clientWidth || parseInt(newSize) < parseInt(maxSizeRef.current)){
+                maxSizeRef.current = newSize;
+            }
+            playerContainerRef.current.style.height = maxSizeRef.current;
             handleResize();
         }
-    }
+    };
 
     const resetVideoSize = () => {
         if (playerContainerRef.current) {
-            playerContainerRef.current.style.height = '';
+            playerContainerRef.current.style.height = "";
         }
-    }
+    };
 
     useEffect(() => {
-        if (style === 'slider') {
+        if (style === "slider") {
             resetVideoSize();
         }
-    },[style])
+    }, [style]);
 
     useEffect(() => {
         window.addEventListener("keydown", listener);
@@ -220,21 +226,27 @@ const GridTV: React.FC<GridTVProps> = ({channelsArray}) => {
         },
     };
 
+    const DynamicControls = controlsLayout === 'side' ? SideControls : NumberKeyboard
+
     return (
-        <div className={`screen ${style === "grid" ? "grid-screen" : "slider-screen"}`}>
-            <div style={{ position: "relative" }}>
-                <div className="fixed-number-keyboard no-events">
-                    <NumberKeyboard
+        <div
+            className={`screen ${
+                style === "grid" ? "grid-screen" : "slider-screen"
+            }`}
+        >
+            <div style={{position: "relative"}}>
+                    <DynamicControls
                         onKeyPress={listener}
                         channels={channelsArray}
                         style={style as DisplayTypes}
                         changeVideoSize={changeVideoSize}
                     />
-                </div>
             </div>
             <div
                 ref={playerContainerRef}
-                className={`${style === "grid" ? "grid-container" : "slider-container"}`}
+                className={`${
+                    style === "grid" ? "grid-container" : "slider-container"
+                }`}
             >
                 {channelsArray?.map((channel, index) => (
                     <Video
@@ -250,7 +262,6 @@ const GridTV: React.FC<GridTVProps> = ({channelsArray}) => {
             </div>
         </div>
     );
-    
 };
 
 export default GridTV;

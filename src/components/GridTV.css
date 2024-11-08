@@ -39,7 +39,7 @@
     position: relative;
 }
 
-.fixed-number-keyboard {
+/* .fixed-number-keyboard {
     position: fixed;
     display: flex;
     flex-direction: row;
@@ -48,4 +48,4 @@
     left: 0;
     height: 0;
     z-index: 100;
-}
+} */

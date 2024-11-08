@@ -49,85 +49,98 @@ const NumberKeyboard: React.FC<NumberKeyboardProps> = ({
     };
 
     return (
-        <div className={"controls-bar keyboard no-events"}>
-            <div className="no-events">
-                <button
-                    ref={remoteButtonRef}
-                    key={"^"}
-                    className={"expand remote-button active-events"}
-                    onClick={toggleRemote}
-                />
-                <div ref={keyboardRef} className="keyboard-container no-events">
-                    <div className="keyboard-content no-events">
-                        {remoteButtons.map((number) => (
-                            <button
-                                key={number.value}
-                                className="button active-events no-select"
-                                onClick={() => handleButtonClick(number.value)}
-                            >
-                                {number.symbol}
-                            </button>
-                        ))}
-                    </div>
-                    <div className="keyboard-content no-events">
-                        <button
-                            key={style}
-                            className="button active-events no-select"
-                            onClick={() => {
-                                navigate("/" + otherStyle);
-                            }}
-                        >
-                            <img
-                                src={icons[otherStyle]}
-                                width="20"
-                                height="20"
-                                alt={otherStyle}
-                            />
-                        </button>
-                        <button
-                            key={"mute"}
-                            className="button active-events no-select"
-                            onClick={() => handleButtonClick("mute")}
-                        >
-                            {"🔇"}
-                        </button>
-            <div className="vid-size-slider-container active-events">
-                {style === "grid" && (
-                    <input
-                        type="range"
-                        defaultValue={35}
-                        min={20}
-                        max={100}
-                        onChange={(e) => {
-                            const newValue = e.currentTarget.value + "%";
-                            changeVideoSize(newValue);
-                        }}
+        <div className="fixed-number-keyboard no-events">
+            <div className={"controls-bar keyboard no-events"}>
+                <div className="no-events">
+                    <button
+                        ref={remoteButtonRef}
+                        key={"^"}
+                        className={"expand remote-button active-events"}
+                        onClick={toggleRemote}
                     />
-                )}
-            </div>
+                    <div
+                        ref={keyboardRef}
+                        className="keyboard-container no-events"
+                    >
+                        <div className="keyboard-content no-events">
+                            {remoteButtons.map((number) => (
+                                <button
+                                    key={number.value}
+                                    className="button active-events no-select"
+                                    onClick={() =>
+                                        handleButtonClick(number.value)
+                                    }
+                                >
+                                    {number.symbol}
+                                </button>
+                            ))}
+                        </div>
+                        <div className="keyboard-content no-events">
+                            <button
+                                key={style}
+                                className="button active-events no-select"
+                                onClick={() => {
+                                    navigate("/" + otherStyle);
+                                }}
+                            >
+                                <img
+                                    src={icons[otherStyle]}
+                                    width="20"
+                                    height="20"
+                                    alt={otherStyle}
+                                />
+                            </button>
+                            <button
+                                key={"mute"}
+                                className="button active-events no-select"
+                                onClick={() => handleButtonClick("mute")}
+                            >
+                                {"🔇"}
+                            </button>
+                            <div className="vid-size-slider-container active-events">
+                                {style === "grid" && (
+                                    <input
+                                        type="range"
+                                        defaultValue={35}
+                                        min={20}
+                                        max={100}
+                                        onChange={(e) => {
+                                            const newValue =
+                                                e.currentTarget.value + "%";
+                                            changeVideoSize(newValue);
+                                        }}
+                                    />
+                                )}
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div className="active-events">
-                <button
-                    ref={channelsButtonRef}
-                    key={"^"}
-                    className={"expand-channels channels-button active-events"}
-                    onClick={toggleChannels}
-                />
-                <div ref={channelsRef} className="no-events channels-container">
-                    {channels.map((channel, index) => (
-                        <button
-                            key={channel.name}
-                            className="button channel-button active-events no-select"
-                            style={{
-                                backgroundImage: `url(${channel.img})`,
-                            }}
-                            onClick={() =>
-                                handleButtonClick((index + 1).toString())
-                            }
-                        ></button>
-                    ))}
+                <div className="active-events">
+                    <button
+                        ref={channelsButtonRef}
+                        key={"^"}
+                        className={
+                            "expand-channels channels-button active-events"
+                        }
+                        onClick={toggleChannels}
+                    />
+                    <div
+                        ref={channelsRef}
+                        className="no-events channels-container"
+                    >
+                        {channels.map((channel, index) => (
+                            <button
+                                key={channel.name}
+                                className="button channel-button active-events no-select"
+                                style={{
+                                    backgroundImage: `url(${channel.img})`,
+                                }}
+                                onClick={() =>
+                                    handleButtonClick((index + 1).toString())
+                                }
+                            ></button>
+                        ))}
+                    </div>
                 </div>
             </div>
         </div>
