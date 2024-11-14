@@ -2,8 +2,8 @@ import React from "react";
 import {useNavigate} from "react-router-dom";
 import gridIcon from "../assets/svg/grid.svg";
 import sliderIcon from "../assets/svg/slider.svg";
-import {useRemotes} from "../hooks/useRemotes";
-import {remoteButtons} from "../data/remoteButtons";
+import {useRemotes} from "../lib/hooks/useRemotes";
+import {remoteButtons} from "../lib/data/remoteButtons";
 import "./NumberKeyboard.css";
 
 interface Channel {
@@ -14,7 +14,7 @@ interface Channel {
 export type DisplayTypes = "grid" | "slider";
 
 interface NumberKeyboardProps {
-    onKeyPress: (e: KeyboardEvent) => void;
+    onKeyPress: (e: React.KeyboardEvent<Element>, isByIndex?: boolean) => void;
     channels: Channel[];
     style: DisplayTypes;
     changeVideoSize: (size: string) => void;
@@ -45,7 +45,7 @@ const NumberKeyboard: React.FC<NumberKeyboardProps> = ({
     } = useRemotes();
 
     const handleButtonClick = (number: string) => {
-        onKeyPress({key: number} as KeyboardEvent);
+        onKeyPress({key: number} as React.KeyboardEvent<Element>);
     };
 
     return (

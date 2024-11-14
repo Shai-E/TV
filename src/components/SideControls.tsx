@@ -2,7 +2,7 @@ import React from "react";
 import {useNavigate} from "react-router-dom";
 import gridIcon from "../assets/svg/grid.svg";
 import sliderIcon from "../assets/svg/slider.svg";
-import {remoteButtons} from "../data/remoteButtons";
+import {remoteButtons} from "../lib/data/remoteButtons";
 import "./SideControls.css";
 
 interface Channel {
@@ -13,7 +13,7 @@ interface Channel {
 export type DisplayTypes = "grid" | "slider";
 
 interface SideControlsProps {
-    onKeyPress: (e: KeyboardEvent, isByIndex?: boolean) => void;
+    onKeyPress: (e: React.KeyboardEvent<Element>, isByIndex?: boolean) => void;
     channels: Channel[];
     style: DisplayTypes;
     changeVideoSize: (size: string) => void;
@@ -35,7 +35,7 @@ const SideControls: React.FC<SideControlsProps> = ({
     const navigate = useNavigate();
 
     const handleButtonClick = (number: string, isByIndex?: boolean) => {
-        onKeyPress({key: number} as KeyboardEvent, isByIndex);
+        onKeyPress({key: number} as React.KeyboardEvent<Element>, isByIndex);
     };
 
     return (

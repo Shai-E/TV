@@ -1,9 +1,9 @@
-import kanImage from '../assets/images/kan.jpg';
-import keshetImage from '../assets/images/keshet.png';
-import reshetImage from '../assets/images/reshet.jpg';
-import nowImage from '../assets/images/now.jpg';
-import i24Image from '../assets/images/i24.png';
-import knesetImage from '../assets/images/kneset.jpg';
+import kanImage from '../../assets/images/kan.jpg';
+import keshetImage from '../../assets/images/keshet.png';
+import reshetImage from '../../assets/images/reshet.jpg';
+import nowImage from '../../assets/images/now.jpg';
+import i24Image from '../../assets/images/i24.png';
+import knesetImage from '../../assets/images/kneset.jpg';
 
 const channels = {
     israeli: {

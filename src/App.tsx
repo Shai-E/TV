@@ -2,7 +2,7 @@ import React from "react";
 import "./App.css";
 import {HashRouter as Router, Route, Routes, Navigate} from "react-router-dom";
 import GridTV from "./components/GridTV";
-import {allChannels} from "./data/channels";
+import {allChannels} from "./lib/data/channels";
 
 function App() {
     return (
