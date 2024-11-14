@@ -14,7 +14,8 @@ export const useGridTVLogic = (channelsArray: { channel: number; url: string; na
     const channelInputRef = useRef<string>("");
     const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
     const playerContainerRef = useRef<HTMLDivElement | null>(null);
-    const interactionHappened = useRef(false);
+    const observersRef = useRef<Record<number, IntersectionObserver>>({});
+    const mutedStateRef = useRef<boolean>(false);
 
     const channelsMap = channelsArray.reduce((acc, channel, index) => {
         acc[channel.channel] = index + 1;
@@ -27,42 +28,56 @@ export const useGridTVLogic = (channelsArray: { channel: number; url: string; na
             block: "center",
             inline: "center",
         });
-    }
+    }    
 
-    // Intersection Observer to to chaqnge the muted state of the video on scroll (sound focus)
-    useEffect(()=>{
-        if(interactionHappened.current && style === 'slider' && playerRef.current && playerContainerRef.current){            
+    useEffect(()=>{        
+        if(style === 'slider' && playerRef.current && playerContainerRef.current){            
             Object.entries(playerRef.current).forEach(([index, playerElementRef]) => {
-                    const observer = new IntersectionObserver((entries) => {
-                        entries.forEach((entry) => {
-                            if (entry.isIntersecting) {
-                                currentChannel.current = parseInt(index);
-                                handleMuted(parseInt(index), false);
-                            }
-                        });
-                    }, {threshold: 0.5});
-                    observer.observe(playerElementRef.el());
+                if (observersRef.current[+index]) {
+                    return;
+                }                
+                const observer = new IntersectionObserver((entries) => {                    
+                    entries.forEach((entry) => {
+                        if (entry.isIntersecting) {
+                            currentChannel.current = parseInt(index);
+                            handleMuted(parseInt(index), false);
+                        }
+                    });
+                }, {threshold: 0.5});
+                observer.observe(playerElementRef.el());
             });
         }
-    },[interactionHappened.current, style, playerRef.current, playerContainerRef.current]);
+        if(style === 'grid' && playerRef.current && playerContainerRef.current){      
+            handleMuted(currentChannel.current);
+        }
+        return () => {
+            Object.values(observersRef.current).forEach((observer) => {
+                observer.disconnect();
+            });
+        }
+    },[style, playerRef.current, playerContainerRef.current, mutedStateRef.current]);
 
     const handleScreenResize = () => {
         scrollIntoView(currentChannel.current);
     };
 
-    const handleMuted = (player: number, isScrollIntoView: boolean = true) => {
+    const muteAllPlayers = () => {
         Object.entries(playerRef.current).forEach(([key, value]) => {
-            if (parseInt(key) !== player) {
-                value.muted(true);
-            }
+            value.muted(true);
         });
+    }
+
+    const muteAllPlayersExcept = (player: number) => {
+        Object.entries(playerRef.current).forEach(([key, value]) => {
+            value.muted(mutedStateRef.current || parseInt(key) !== player);
+        });
+    }
+
+    const handleMuted = (player: number, isScrollIntoView: boolean = true) => {
+        muteAllPlayersExcept(player);
         const currentPlayer = playerRef.current[player];
         if (currentPlayer) {
-            currentPlayer.muted(false);
             const isPlaying = !currentPlayer.paused();
-            if (!interactionHappened.current) {
-                interactionHappened.current = true;
-            }
             if (isPlaying) {
                 currentPlayer.liveTracker.seekToLiveEdge();
             } else {
@@ -72,7 +87,7 @@ export const useGridTVLogic = (channelsArray: { channel: number; url: string; na
         isScrollIntoView && scrollIntoView(player);
     }
 
-    const handleChannelInput = (isByIndex: boolean) => {
+    const handleChannelInput = (isByIndex: boolean, isMuted: boolean) => {
         const channelNumber = parseInt(channelInputRef.current, 10);
         const channelToUse = isByIndex ? channelNumber : channelsMap[channelNumber];
         if (channelToUse >= 0 && channelToUse <= Object.keys(playerRef.current).length) {
@@ -85,18 +100,27 @@ export const useGridTVLogic = (channelsArray: { channel: number; url: string; na
     };
 
     const listener = (e: KeyboardEvent<Element>, isByIndex: boolean | undefined = DEFAULT_IS_BY_INDEX) => {
+        if (e?.preventDefault) e?.preventDefault();
+        const isMuted = mutedStateRef.current;
         if (e.key === "mute") {
-            channelInputRef.current = "";
-            handleMuted(0);
+            if(isMuted) {
+                mutedStateRef.current = false;
+                handleMuted(currentChannel.current);
+            } else {
+                channelInputRef.current = "";
+                mutedStateRef.current = true;
+                muteAllPlayers()
+            }
         }
 
         if (parseInt(e.key) >= 0 && parseInt(e.key) <= 9) {
+            mutedStateRef.current = false;
             channelInputRef.current += e.key;
             if (debounceTimerRef.current) {
                 clearTimeout(debounceTimerRef.current);
             }
             debounceTimerRef.current = setTimeout(() => {
-                handleChannelInput(isByIndex);
+                handleChannelInput(isByIndex, isMuted);
             }, 500);
         }
         if (e.key === "ArrowRight") {
@@ -118,11 +142,7 @@ export const useGridTVLogic = (channelsArray: { channel: number; url: string; na
             }
         }
         if (e.key === "grid") {
-            videoRef.current[currentChannel.current]?.current?.scrollIntoView({
-                behavior: "smooth",
-                block: "center",
-                inline: "center",
-            });
+            scrollIntoView(currentChannel.current);
         }
     };
 

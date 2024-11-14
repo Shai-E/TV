@@ -18,17 +18,4 @@ const useDebounce = (value: string, delay: number): string => {
 
 export default useDebounce;
 
-// export const useDebounceCB = (cb: Function, delay: number): void => {
-//     useEffect(() => {
-//         const handler = setTimeout(() => {
-//             cb();
-//         }, delay);
-
-//         return () => {
-//             clearTimeout(handler);
-//         };
-//     }, [cb, delay]);
-
-//     return;
-// }
 
