@@ -194,6 +194,18 @@ export const useGridTVLogic = (
             }
             return;
         }
+        if (e.key === "ArrowDown") {
+            if (currentChannel.current === Object.keys(playerRef.current).length) return;
+            currentChannel.current = Object.keys(playerRef.current).length;
+            handleMuted(currentChannel.current);
+            return;
+        }
+        if (e.key === "ArrowUp") {
+            if (currentChannel.current === 1) return;
+            currentChannel.current = 1;
+            handleMuted(currentChannel.current);
+            return;
+        }
         if (e.key === "grid") {
             scrollIntoView(currentChannel.current);
             return;
