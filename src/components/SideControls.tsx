@@ -13,7 +13,7 @@ interface Channel {
 export type DisplayTypes = "grid" | "slider";
 
 interface SideControlsProps {
-    onKeyPress: (e: React.KeyboardEvent<Element>, isByIndex?: boolean) => void;
+    onKeyPress: (e: React.KeyboardEvent<Element>, isByIndex?: boolean, noDelay?: boolean) => void;
     channels: Channel[];
     style: DisplayTypes;
     changeVideoSize: (size: string) => void;
@@ -34,8 +34,8 @@ const SideControls: React.FC<SideControlsProps> = ({
 
     const navigate = useNavigate();
 
-    const handleButtonClick = (number: string, isByIndex?: boolean) => {
-        onKeyPress({key: number} as React.KeyboardEvent<Element>, isByIndex);
+    const handleButtonClick = (number: string, isByIndex?: boolean, noDelay?: boolean) => {
+        onKeyPress({key: number} as React.KeyboardEvent<Element>, isByIndex, noDelay);
     };
 
     return (
@@ -104,7 +104,8 @@ const SideControls: React.FC<SideControlsProps> = ({
                             }}
                             onClick={() =>{
                                 const isByIndex = true
-                                handleButtonClick((index + 1).toString(), isByIndex)
+                                const noDelay = true
+                                handleButtonClick((index + 1).toString(), isByIndex, noDelay)
                             }
                             }
                         ></button>
