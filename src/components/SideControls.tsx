@@ -4,13 +4,13 @@ import gridIcon from "../assets/svg/grid.svg";
 import sliderIcon from "../assets/svg/slider.svg";
 import {remoteButtons} from "../lib/data/remoteButtons";
 import "./SideControls.css";
+import { useChangeStyle } from "../lib/hooks/useChangeStyle";
+import { DisplayTypes } from "./NumberKeyboard";
 
 interface Channel {
     name: string;
     img: string;
 }
-
-export type DisplayTypes = "grid" | "slider";
 
 interface SideControlsProps {
     onKeyPress: (e: React.KeyboardEvent<Element>, isByIndex?: boolean, noDelay?: boolean) => void;
@@ -30,9 +30,7 @@ const SideControls: React.FC<SideControlsProps> = ({
     style,
     changeVideoSize,
 }) => {
-    const otherStyle = style === "grid" ? "slider" : "grid";
-
-    const navigate = useNavigate();
+    const {otherStyle, changeStyle} = useChangeStyle(style);
 
     const handleButtonClick = (number: string, isByIndex?: boolean, noDelay?: boolean) => {
         onKeyPress({key: number} as React.KeyboardEvent<Element>, isByIndex, noDelay);
@@ -61,7 +59,7 @@ const SideControls: React.FC<SideControlsProps> = ({
                             key={style}
                             className="button active-events no-select"
                             onClick={() => {
-                                navigate("/" + otherStyle);
+                                changeStyle();
                             }}
                         >
                             <img

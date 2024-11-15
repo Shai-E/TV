@@ -1,6 +1,7 @@
 import {useEffect, useRef, useState, KeyboardEvent} from "react";
 import {ControlsLayoutOptions, PlayerRef, VideoRef} from "../types";
 import {useParams} from "react-router-dom";
+import { DisplayTypes, useChangeStyle } from "./useChangeStyle";
 
 const DEFAULT_IS_BY_INDEX = false;
 const KEYBOARD_PRESS_DELAY = 800;
@@ -11,9 +12,9 @@ export const useGridTVLogic = (
     const playerRef = useRef<PlayerRef>({});
     const videoRef = useRef<VideoRef>({});
     const currentChannel = useRef<number>(0);
-    const {style} = useParams<{style?: string}>();
+    const {style} = useParams<{style?: DisplayTypes}>();
     const maxVideoHeightSizeRef = useRef("100");
-    const [controlsLayout, setControlsLayout] = useState(
+    const [controlsLayout, setControlsLayout] = useState<ControlsLayoutOptions>(
         ControlsLayoutOptions.SIDE
     );
     const channelInputRef = useRef<string>("");
@@ -21,6 +22,8 @@ export const useGridTVLogic = (
     const playerContainerRef = useRef<HTMLDivElement | null>(null);
     const observersRef = useRef<Record<number, IntersectionObserver>>({});
     const mutedStateRef = useRef<boolean>(false);
+
+    const {changeStyle} = useChangeStyle(style as DisplayTypes);
 
     const channelsMap = channelsArray.reduce((acc, channel, index) => {
         acc[channel.channel] = index + 1;
@@ -222,6 +225,15 @@ export const useGridTVLogic = (
                 handleMuted(currentChannel.current);
             }
             return;
+        }
+        if (e?.code && e.code === "KeyS") {            
+            changeStyle('slider');            
+        }
+        if (e?.code && e.code === "KeyG") {            
+            changeStyle('grid');
+        }
+        if (e?.code && e.code === "KeyL") {            
+            setControlsLayout(controlsLayout === ControlsLayoutOptions.SIDE ? ControlsLayoutOptions.FLOAT : ControlsLayoutOptions.SIDE);
         }
     };
 

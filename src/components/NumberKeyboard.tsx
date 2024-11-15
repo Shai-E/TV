@@ -14,7 +14,7 @@ interface Channel {
 export type DisplayTypes = "grid" | "slider";
 
 interface NumberKeyboardProps {
-    onKeyPress: (e: React.KeyboardEvent<Element>, isByIndex?: boolean) => void;
+    onKeyPress: (e: React.KeyboardEvent<Element>, isByIndex?: boolean, noDelay?: boolean) => void;
     channels: Channel[];
     style: DisplayTypes;
     changeVideoSize: (size: string) => void;
@@ -44,8 +44,8 @@ const NumberKeyboard: React.FC<NumberKeyboardProps> = ({
         toggleChannels,
     } = useRemotes();
 
-    const handleButtonClick = (number: string) => {
-        onKeyPress({key: number} as React.KeyboardEvent<Element>);
+    const handleButtonClick = (number: string, isByIndex?: boolean, noDelay?: boolean) => {
+        onKeyPress({key: number} as React.KeyboardEvent<Element>, isByIndex, noDelay);
     };
 
     return (
@@ -135,8 +135,10 @@ const NumberKeyboard: React.FC<NumberKeyboardProps> = ({
                                 style={{
                                     backgroundImage: `url(${channel.img})`,
                                 }}
-                                onClick={() =>
-                                    handleButtonClick((index + 1).toString())
+                                onClick={() =>{
+                                    const isByIndex = true
+                                    const noDelay = true
+                                    handleButtonClick((index + 1).toString(), isByIndex, noDelay)}
                                 }
                             ></button>
                         ))}
