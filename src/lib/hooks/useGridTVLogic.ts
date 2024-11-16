@@ -1,7 +1,7 @@
 import {useEffect, useRef, useState, KeyboardEvent} from "react";
 import {ControlsLayoutOptions, PlayerRef, VideoRef} from "../types";
 import {useParams} from "react-router-dom";
-import { DisplayTypes, useChangeStyle } from "./useChangeStyle";
+import {DisplayTypes, useChangeStyle} from "./useChangeStyle";
 
 const DEFAULT_IS_BY_INDEX = false;
 const KEYBOARD_PRESS_DELAY = 800;
@@ -12,6 +12,7 @@ export const useGridTVLogic = (
     const playerRef = useRef<PlayerRef>({});
     const videoRef = useRef<VideoRef>({});
     const currentChannel = useRef<number>(0);
+    const prevChannel = useRef<number>(0);
     const {style} = useParams<{style?: DisplayTypes}>();
     const maxVideoHeightSizeRef = useRef("100");
     const [controlsLayout, setControlsLayout] = useState<ControlsLayoutOptions>(
@@ -53,6 +54,8 @@ export const useGridTVLogic = (
                         (entries) => {
                             entries.forEach((entry) => {
                                 if (entry.isIntersecting) {
+                                    prevChannel.current =
+                                        currentChannel.current;
                                     currentChannel.current = parseInt(index);
                                     handleMuted(parseInt(index), false);
                                 }
@@ -115,14 +118,14 @@ export const useGridTVLogic = (
 
     const clearChannelInput = () => {
         channelInputRef.current = "";
-    }
+    };
 
     const handleChannelInput = (isByIndex: boolean, isMuted: boolean) => {
         const isChannelKeyActivated = channelInputRef.current[0] === "C";
         if (isChannelKeyActivated) {
             channelInputRef.current = channelInputRef.current.slice(1);
             isByIndex = false;
-        }        
+        }
         const channelNumber = parseInt(channelInputRef.current, 10);
         const channelToUse = isByIndex
             ? channelNumber
@@ -132,6 +135,7 @@ export const useGridTVLogic = (
             channelToUse <= Object.keys(playerRef.current).length
         ) {
             if (channelToUse !== 0) {
+                prevChannel.current = currentChannel.current;
                 currentChannel.current = channelToUse;
             }
             handleMuted(channelToUse);
@@ -177,11 +181,13 @@ export const useGridTVLogic = (
             if (
                 currentChannel.current < Object.keys(playerRef.current).length
             ) {
+                prevChannel.current = currentChannel.current;
                 currentChannel.current++;
                 handleMuted(currentChannel.current);
             } else if (
                 currentChannel.current === Object.keys(playerRef.current).length
             ) {
+                prevChannel.current = currentChannel.current;
                 currentChannel.current = 1;
                 handleMuted(currentChannel.current);
             }
@@ -189,22 +195,29 @@ export const useGridTVLogic = (
         }
         if (e.key === "ArrowLeft") {
             if (currentChannel.current > 1) {
+                prevChannel.current = currentChannel.current;
                 currentChannel.current--;
                 handleMuted(currentChannel.current);
             } else if (currentChannel.current <= 1) {
+                prevChannel.current = currentChannel.current;
                 currentChannel.current = Object.keys(playerRef.current).length;
                 handleMuted(currentChannel.current);
             }
             return;
         }
         if (e.key === "ArrowDown") {
-            if (currentChannel.current === Object.keys(playerRef.current).length) return;
+            if (
+                currentChannel.current === Object.keys(playerRef.current).length
+            )
+                return;
+            prevChannel.current = currentChannel.current;
             currentChannel.current = Object.keys(playerRef.current).length;
             handleMuted(currentChannel.current);
             return;
         }
         if (e.key === "ArrowUp") {
             if (currentChannel.current === 1) return;
+            prevChannel.current = currentChannel.current;
             currentChannel.current = 1;
             handleMuted(currentChannel.current);
             return;
@@ -217,23 +230,59 @@ export const useGridTVLogic = (
             channelInputRef.current = "C";
             return;
         }
-        if (e?.code && e.code === "KeyM") {            
+        if (e?.code && e.code === "KeyM") {
             mutedStateRef.current = !mutedStateRef.current;
-            if(mutedStateRef.current) {
+            if (mutedStateRef.current) {
                 muteAllPlayers();
             } else {
                 handleMuted(currentChannel.current);
             }
             return;
         }
-        if (e?.code && e.code === "KeyS") {            
-            changeStyle('slider');            
+        if (e?.code && e.code === "KeyS") {
+            changeStyle("slider");
         }
-        if (e?.code && e.code === "KeyG") {            
-            changeStyle('grid');
+        if (e?.code && e.code === "KeyG") {
+            changeStyle("grid");
         }
-        if (e?.code && e.code === "KeyL") {            
-            setControlsLayout(controlsLayout === ControlsLayoutOptions.SIDE ? ControlsLayoutOptions.FLOAT : ControlsLayoutOptions.SIDE);
+        if (e?.code && e.code === "KeyL") {
+            setControlsLayout(
+                controlsLayout === ControlsLayoutOptions.SIDE
+                    ? ControlsLayoutOptions.FLOAT
+                    : ControlsLayoutOptions.SIDE
+            );
+        }
+        if (e?.code && e.code === "KeyP") {
+            const isPlaying =
+                !playerRef.current[currentChannel.current].paused();
+            if (isPlaying) {
+                playerRef.current[currentChannel.current].pause();
+            } else {
+                playerRef.current[currentChannel.current].play();
+            }
+        }
+        if (e?.code && e.code === "Period") {
+            playerRef.current[currentChannel.current].liveTracker.seekToLiveEdge();
+
+        }
+        if (e?.code && e.code === "Minus") {   
+            if (style==="slider") return;        
+            adjustVideoSize(-10);
+        }
+        if (e?.code && e.code === "Equal") {  
+            if (style==="slider") return;        
+            adjustVideoSize(10);
+        }
+        if (e?.code && e.code === "KeyF") {    
+            if (style==="slider") return;                
+            adjustVideoSize(100);
+        }
+        if (e?.code && e.code === "Comma") {            
+            const temp = prevChannel.current;
+            prevChannel.current = currentChannel.current;
+            currentChannel.current = temp;
+            handleMuted(currentChannel.current);
+            return;
         }
     };
 
@@ -261,6 +310,30 @@ export const useGridTVLogic = (
             playerContainerRef.current.style.height =
                 maxVideoHeightSizeRef.current;
             handleScreenResize();
+        }
+    };
+
+    const percentToNumber = (percent: string) => {
+        return percent.includes("%")
+            ? +percent.slice(0, percent.length - 1)
+            : +percent;
+    }
+
+    const adjustVideoSize = (adjustBy: number) => {
+        if (playerContainerRef.current) {
+            const actualHeight = percentToNumber(playerContainerRef.current.style.height);
+            const max = percentToNumber(maxVideoHeightSizeRef.current);
+            const newSize = actualHeight + adjustBy
+            if(newSize <= max && newSize >= 20) {
+                playerContainerRef.current.style.height = (actualHeight + adjustBy) + "%";
+                handleScreenResize();
+            } else if (newSize > max) {
+                playerContainerRef.current.style.height = maxVideoHeightSizeRef.current + "%";
+                handleScreenResize();
+            } else if (adjustBy > 0) {
+                playerContainerRef.current.style.height = maxVideoHeightSizeRef.current + "%";
+                handleScreenResize();
+            }
         }
     };
 
