@@ -17,7 +17,8 @@ const channels = {
             {
                 name: "Keshet-12",
                 channel: 12,
-                url: 'https://mako-streaming.akamaized.net/stream/hls/live/2033791/k12n12wad/profile/0/hdntl=exp=1728302277~acl=%2f*~data=hdntl~hmac=bbebf1d35582a84fa159680712d90c80cf87bee8f6a6e509a26057526202e7ac/profileManifest.m3u8?_uid=30b800c2-566f-451c-898e-8d45ea61d02c&rK=a1&_did=e9e61596f0245cac69926bf7084c4674d2a975ad',
+                // url: 'https://mako-streaming.akamaized.net/stream/hls/live/2033791/k12n12wad/profile/0/hdntl=exp=1728302277~acl=%2f*~data=hdntl~hmac=bbebf1d35582a84fa159680712d90c80cf87bee8f6a6e509a26057526202e7ac/profileManifest.m3u8?_uid=30b800c2-566f-451c-898e-8d45ea61d02c&rK=a1&_did=e9e61596f0245cac69926bf7084c4674d2a975ad',
+                url: 'https://mako-streaming.akamaized.net/stream/hls/live/2033791/k12dvr/profile/2/hdntl=exp=1731864400~acl=%2f*~data=hdntl~hmac=c20e1ac9f573ded37c4db8de3afb8f6ce25fd105eabd241209aa9ba8d220ec09/profileManifest.m3u8?_uid=f0ea0c4b-0bfe-491a-a7d6-7cfd23125300&rK=a2&_did=Wd720f40fa73264f1c45804dc924082f89b4',
                 img: keshetImage,
             },
             {
