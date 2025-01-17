@@ -42,7 +42,8 @@ const channels = {
             {
                 name: "Kneset",
                 channel: 99,
-                url: 'https://contactgbs.mmdlive.lldns.net/contactgbs/a40693c59c714fecbcba2cee6e5ab957/chunklist_b564000.m3u8',
+                url: 'https://kneset.gostreaming.tv/p2-kneset/_definst_/myStream/playlist.m3u8',
+                // url: 'https://contactgbs.mmdlive.lldns.net/contactgbs/a40693c59c714fecbcba2cee6e5ab957/chunklist_b564000.m3u8',
                 img: knesetImage,
             },
         ],
