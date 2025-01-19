@@ -4,10 +4,17 @@ import reshetImage from '../../assets/images/reshet.jpg';
 import nowImage from '../../assets/images/now.jpg';
 import i24Image from '../../assets/images/i24.png';
 import knesetImage from '../../assets/images/kneset.jpg';
+import tv10 from '../../assets/images/tv10.jpeg';
 
 const channels = {
     israeli: {
         news: [
+            {
+                name: "tv10",
+                channel: 10,
+                url: "https://r.il.cdn-redge.media/livehls/oil/calcala/live/channel10/live.livx/playlist.m3u8?renditions&dummy=1",
+                img: tv10,
+            },
             {
                 name: "Kan-11",
                 channel: 11,
