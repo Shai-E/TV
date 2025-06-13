@@ -12,7 +12,9 @@ const channels = {
             {
                 name: "tv10",
                 channel: 10,
-                url: "https://r.il.cdn-redge.media/livehls/oil/calcala/live/channel10/live.livx/playlist.m3u8?renditions&dummy=1",
+                url: 'https://r.il.cdn-redge.media/livehls/oil/calcala-live/live/channel10/live.livx/playlist.m3u8',
+                // url: "https://n-121-2.il.cdn-redge.media/livedash/oil/calcala-live/live/channel10/live.livx?type=video&ft=1&id=4&bitrate=3000000&idx=384722665",
+                // srcType: "application/dash+xml",
                 img: tv10,
             },
             {
@@ -31,7 +33,10 @@ const channels = {
             {
                 name: "Reshet-13",
                 channel: 13,
-                url: "https://reshet.g-mana.live/media/cdefce3a-14ec-46cc-a147-1275c4a8b9ed/profile/1/profileManifest.m3u8?_uid=b1915715-db1f-4c13-91cd-6e97f687e445&rK=a6&_did=f8603b08-db94-44ce-9a30-548209ef5609",
+                // url: "https://media.reshet.tv/image/upload/v1746345448/13_q8gehw.webp","adTargetEnv":"prod","kalturaClientTag":"ReshetWeb","liveSources":{"mobile":{"live_with_subs":"https://reshet.g-mana.live/media/6f10d1da-0803-48d9-9272-57a811958974/mainManifest.m3u8","live_no_subs":"https://reshet.g-mana.live/media/cdefce3a-14ec-46cc-a147-1275c4a8b9ed/mainManifest.m3u8"},"desktop":{"live_with_subs":"https://reshet.g-mana.live/media/4607e158-e4d4-4e18-9160-3dc3ea9bc677/mainManifest.m3u8","live_no_subs":"https://reshet.g-mana.live/media/87f59c77-03f6-4bad-a648-897e095e7360/mainManifest.m3u8",
+                url: "https://reshet.g-mana.live/media/6f10d1da-0803-48d9-9272-57a811958974/mainManifest.m3u8",
+                // url: "https://reshet.g-mana.live/media/87f59c77-03f6-4bad-a648-897e095e7360/mainManifest.m3u8",
+                // url: "https://reshet.g-mana.live/media/87f59c77-03f6-4bad-a648-897e095e7360/profile/2/profileManifest.m3u8?_uid=1c87b1f7-c8ed-479a-966e-f75b17247b3e&rK=a5&_did=9063e73c-ee5b-4ced-9781-3917324bec3b",
                 img: reshetImage,
             },
             {
@@ -49,7 +54,8 @@ const channels = {
             {
                 name: "Kneset",
                 channel: 99,
-                url: 'https://kneset.gostreaming.tv/p2-kneset/_definst_/myStream/playlist.m3u8',
+                url: 'https://kneset.gostreaming.tv/p2-Accessibility/_definst_/myStream/chunklist.m3u8',
+                // url: 'https://kneset.gostreaming.tv/p2-kneset/_definst_/myStream/playlist.m3u8',
                 // url: 'https://contactgbs.mmdlive.lldns.net/contactgbs/a40693c59c714fecbcba2cee6e5ab957/chunklist_b564000.m3u8',
                 img: knesetImage,
             },
