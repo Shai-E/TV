@@ -38,7 +38,7 @@ const channels = {
             {
                 name: "Channel-14",
                 channel: 14,
-                url: "https://ch14-channel14-content.akamaized.net/hls/live/2104807/CH14_CHANNEL14/2/streamPlaylist.m3u8",
+                url: "https://r.il.cdn-redge.media/livehls/oil/ch14/live/ch14/live.livx/playlist.m3u8",
                 img: nowImage,
             },
             {
