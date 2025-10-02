@@ -1,10 +1,9 @@
 {
   "files": {
     "main.css": "/TV/static/css/main.f838e993.css",
-    "main.js": "/TV/static/js/main.e3bb5e8f.js",
+    "main.js": "/TV/static/js/main.3ffa17fa.js",
     "static/js/453.6cd7de09.chunk.js": "/TV/static/js/453.6cd7de09.chunk.js",
     "static/media/keshet.png": "/TV/static/media/keshet.2b575b8a65a332e6ba71.png",
-    "static/media/bigbrother.jpg": "/TV/static/media/bigbrother.2e37b830afb82a3c54aa.jpg",
     "static/media/i24.png": "/TV/static/media/i24.28f2737db172a1c6b81d.png",
     "static/media/kneset.jpg": "/TV/static/media/kneset.ccf8884deead7920fcbe.jpg",
     "static/media/reshet.jpg": "/TV/static/media/reshet.a376be9f8a5a9a20cf92.jpg",
@@ -14,11 +13,11 @@
     "static/media/slider.svg": "/TV/static/media/slider.2199a95f1514c6737f4d0769dc5ad960.svg",
     "static/media/grid.svg": "/TV/static/media/grid.24292351fbc6b6e16c411875bccc2254.svg",
     "main.f838e993.css.map": "/TV/static/css/main.f838e993.css.map",
-    "main.e3bb5e8f.js.map": "/TV/static/js/main.e3bb5e8f.js.map",
+    "main.3ffa17fa.js.map": "/TV/static/js/main.3ffa17fa.js.map",
     "453.6cd7de09.chunk.js.map": "/TV/static/js/453.6cd7de09.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.f838e993.css",
-    "static/js/main.e3bb5e8f.js"
+    "static/js/main.3ffa17fa.js"
   ]
 }
