@@ -5,6 +5,7 @@ export interface Channel {
     channel: number;
     url: string;
     img: string;
+    srcType?: string; // Optional property for source type
 }
 
 export interface GridTVProps {

@@ -45,7 +45,7 @@ const GridTV: React.FC<GridTVProps> = ({channelsArray}) => {
             >
                 {channelsArray?.map((channel, index) => (
                     <Video
-                        options={getVideoDefaultOptions(channel.url)}
+                        options={getVideoDefaultOptions(channel.url, channel.srcType)}
                         key={channel.name}
                         getPlayer={(player, video) => {
                             playerRef.current[index + 1] = player;

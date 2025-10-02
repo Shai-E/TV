@@ -26,7 +26,7 @@ const channels = {
             {
                 name: "Keshet-12",
                 channel: 12,
-                url: 'https://mako-streaming.akamaized.net/stream/hls/live/2033791/k12dvr/profile/2/hdntl=exp=1731864400~acl=%2f*~data=hdntl~hmac=c20e1ac9f573ded37c4db8de3afb8f6ce25fd105eabd241209aa9ba8d220ec09/profileManifest.m3u8?_uid=f0ea0c4b-0bfe-491a-a7d6-7cfd23125300&rK=a2&_did=Wd720f40fa73264f1c45804dc924082f89b4',
+                url: 'https://mako-streaming.akamaized.net/stream/hls/live/2033791/k12dvr/profile/0/hdntl=exp=1759484971~acl=%2f*~data=hdntl~hmac=8155972e9922c812710f4ba521a43576fb01e073b575351783143dfbee6ac8e2/profileManifest.m3u8?_uid=e0572ff7-90fd-4acc-af0b-c5f7265df930&rK=b9&_did=Wd720f40fa73264f1c45804dc924082f89b4',
                 img: keshetImage,
             },
             {
@@ -55,12 +55,12 @@ const channels = {
             },
         ],
         other: [
-            {
-                name: "big-brother",
-                channel: 26,
-                img: bigbrother,
-                url: "https://d3snfszc9pg25z.cloudfront.net/out/v1/11329fc2b33a4eca9a2d715c652aa167/playlist_2.m3u8?_uid=fb6c47fd-12f6-4389-9a87-28534c4bcb82&rK=a2&_did=a0f124d800d5d99677d40f7b232f6ebb68a64e92",
-            }
+            // {
+            //     name: "big-brother",
+            //     channel: 26,
+            //     img: bigbrother,
+            //     url: "https://d3snfszc9pg25z.cloudfront.net/out/v1/11329fc2b33a4eca9a2d715c652aa167/playlist_2.m3u8?_uid=fb6c47fd-12f6-4389-9a87-28534c4bcb82&rK=a2&_did=a0f124d800d5d99677d40f7b232f6ebb68a64e92",
+            // }
         ]
     },
     international: {

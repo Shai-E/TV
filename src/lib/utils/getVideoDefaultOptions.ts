@@ -1,4 +1,4 @@
-export const getVideoDefaultOptions = (src: string) => {
+export const getVideoDefaultOptions = (src: string, srcType: string = "application/x-mpegURL") => {
     return {
         muted: true,
         autoplay: true,
@@ -12,7 +12,7 @@ export const getVideoDefaultOptions = (src: string) => {
         sources: [
             {
                 src: src,
-                type: "application/x-mpegURL",
+                type: srcType,
             },
         ],
     };
