@@ -20,13 +20,14 @@ const channels = {
             {
                 name: "Kan-11",
                 channel: 11,
-                url: "https://kan11w.media.kan.org.il/hls/live/2105694/2105694/source1_4k/chunklist.m3u8",
+                url: "https://kancdn.medonecdn.net/livehls/oil/kancdn-live/live/kan11/live.livx/playlist.m3u8?renditions&amp;fmp4",
+                // url: "https://kan11w.media.kan.org.il/hls/live/2105694/2105694/source1_4k/chunklist.m3u8",
                 img: kanImage,
             },
             {
                 name: "Keshet-12",
                 channel: 12,
-                url: 'https://mako-streaming.akamaized.net/stream/hls/live/2033791/k12dvr/profile/0/hdntl=exp=1759484971~acl=%2f*~data=hdntl~hmac=8155972e9922c812710f4ba521a43576fb01e073b575351783143dfbee6ac8e2/profileManifest.m3u8?_uid=e0572ff7-90fd-4acc-af0b-c5f7265df930&rK=b9&_did=Wd720f40fa73264f1c45804dc924082f89b4',
+                url: 'https://mako-streaming.akamaized.net/stream/hls/live/2033791/k12dvr/profile/0/hdntl=exp=1770718980~acl=%2f*~data=hdntl~hmac=7e4927b739ba4bdcbd21516425877dc4fca4054095a7abc94e1268ba1948f626/profileManifest.m3u8?_uid=3b087ef9-f4ce-41e7-bec6-2b37c246966f&rK=b8&_did=Wd720f40fa73264f1c45804dc924082f89b4',
                 img: keshetImage,
             },
             {
@@ -44,7 +45,7 @@ const channels = {
             {
                 name: "i24",
                 channel: 15,
-                url: 'https://bcovlive-a.akamaihd.net/d89ede8094c741b7924120b27764153c/eu-central-1/5377161796001/profile_0/chunklist.m3u8',
+                url: 'https://fastly.live.brightcove.com/6386790215112/eu-central-1/5377161796001/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJob3N0IjoiZXJmajYzLmVncmVzcy53YzQ3bTEiLCJhY2NvdW50X2lkIjoiNTM3NzE2MTc5NjAwMSIsImVobiI6ImZhc3RseS5saXZlLmJyaWdodGNvdmUuY29tIiwiaXNzIjoiYmxpdmUtcGxheWJhY2stc291cmNlLWFwaSIsInN1YiI6InBhdGhtYXB0b2tlbiIsImF1ZCI6WyI1Mzc3MTYxNzk2MDAxIl0sImp0aSI6IjYzODY3OTAyMTUxMTIifQ.8ZawImK7DfcrrXeAT2OVZ62qQJrJiBaoc7Y1DNNq1bg/chunklist__4.m3u8',
                 img: i24Image,
             },
             {
