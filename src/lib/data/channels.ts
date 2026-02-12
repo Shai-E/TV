@@ -27,13 +27,13 @@ const channels = {
             {
                 name: "Keshet-12",
                 channel: 12,
-                url: 'https://mako-streaming.akamaized.net/stream/hls/live/2033791/k12dvr/profile/0/hdntl=exp=1770718980~acl=%2f*~data=hdntl~hmac=7e4927b739ba4bdcbd21516425877dc4fca4054095a7abc94e1268ba1948f626/profileManifest.m3u8?_uid=3b087ef9-f4ce-41e7-bec6-2b37c246966f&rK=b8&_did=Wd720f40fa73264f1c45804dc924082f89b4',
+                url: 'https://mako-streaming.akamaized.net/stream/hls/live/2033791/k12dvr/profile/2/hdntl=exp=1771004274~acl=%2f*~data=hdntl~hmac=96ef768e23c7fc0d9aee83b67af22a6c4307ca29d9eff62715be03d17037d803/profileManifest.m3u8?_uid=b7e41602-cf08-4c69-8005-b058c0d15271&rK=b2&_did=Wd720f40fa73264f1c45804dc924082f89b4',
                 img: keshetImage,
             },
             {
                 name: "Reshet-13",
                 channel: 13,
-                url: "https://reshet.g-mana.live/media/6f10d1da-0803-48d9-9272-57a811958974/mainManifest.m3u8",
+                url: "https://d18b0e6mopany4.cloudfront.net/out/v1/1a7c55961dec4c72b51d79e5d9216cff/index.m3u8",
                 img: reshetImage,
             },
             {
