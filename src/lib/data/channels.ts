@@ -21,13 +21,12 @@ const channels = {
                 name: "Kan-11",
                 channel: 11,
                 url: "https://kancdn.medonecdn.net/livehls/oil/kancdn-live/live/kan11/live.livx/playlist.m3u8?renditions&amp;fmp4",
-                // url: "https://kan11w.media.kan.org.il/hls/live/2105694/2105694/source1_4k/chunklist.m3u8",
                 img: kanImage,
             },
             {
                 name: "Keshet-12",
                 channel: 12,
-                url: 'https://mako-streaming.akamaized.net/stream/hls/live/2033791/k12dvr/profile/2/hdntl=exp=1771004274~acl=%2f*~data=hdntl~hmac=96ef768e23c7fc0d9aee83b67af22a6c4307ca29d9eff62715be03d17037d803/profileManifest.m3u8?_uid=b7e41602-cf08-4c69-8005-b058c0d15271&rK=b2&_did=Wd720f40fa73264f1c45804dc924082f89b4',
+                url: 'https://mako-streaming.akamaized.net/direct/hls/live/2033791/k12dvr/index.m3u8?b-in-range=0-1800&&hdnea=st%3D1772295430%7Eexp%3D1772296330%7Eacl%3D%2F*%7Ehmac%3D84a1c37bc112d76208e2e3130198224721cf20cc745d0f1787d9d3776b89ba1b',
                 img: keshetImage,
             },
             {
